@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/usuarios";
+const baseURL = "https://botapi-z8u7.onrender.com/usuarios";
 
 export const getAll = (params = {}) =>
   axios.get(baseURL, { params }).then((response) => {

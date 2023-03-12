@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/selenium";
+const baseURL = "https://botapi-z8u7.onrender.com/selenium";
 
 export const getSnapshoot = (url) =>
     axios({
