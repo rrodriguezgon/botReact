@@ -3,10 +3,11 @@ import { useCallback, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import { deleteAll } from '../../services/torneos';
 
 import useStyles from "./Filtro.css";
 
-function TorneosFiltros({ search }) {
+function TorneosFiltros({ search, deleteAll }) {
     const [formData, setFormData] = useState({});
 
     const classes = useStyles();
@@ -35,6 +36,11 @@ function TorneosFiltros({ search }) {
       handleSearch();
     }, []);
 
+    const handleDeleteAll = useCallback(()=> {
+      console.log("eiminarn");
+      deleteAll();
+    }, []);
+
 
     return (
         <Card>
@@ -49,7 +55,8 @@ function TorneosFiltros({ search }) {
                     </Form>
                 </Card.Text>
                 <Button variant="primary" className={classes.boxBtnSearch} onClick={handleSearch}>SEARCH</Button>
-                <Button variant="primary" onClick={handleClear}>CLEAR</Button>
+                <Button variant="primary" className={classes.boxBtnSearch} onClick={handleClear}>CLEAR</Button>
+                <Button variant="danger" onClick={handleDeleteAll}>ELIMINAR TODOS</Button>
             </Card.Body>
         </Card>
     )

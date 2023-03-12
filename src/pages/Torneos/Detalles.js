@@ -6,7 +6,7 @@ import {
 import { Buffer } from "buffer";
 import moment from "moment/moment";
 
-import { getById } from "../../services/torneos";
+import { getById, updateById } from "../../services/torneos";
 import { getSnapshoot } from "../../services/selenium";
 
 import useStyles from "./Detalles.css";
@@ -35,10 +35,7 @@ export function TorneosDetalles() {
 
     let { id } = useParams();
 
-    useEffect(() => {
-        if (isRunned.current) return;
-        isRunned.current = true;
-
+    function getTorneo(id){
         getById(id).then((result) => {
             setLoading(false);
             setData(result.data);
@@ -50,6 +47,13 @@ export function TorneosDetalles() {
 
             setShowAlerta(true);
         });
+    }
+
+    useEffect(() => {
+        if (isRunned.current) return;
+        isRunned.current = true;
+
+        getTorneo(id);       
     }, [data]);
 
     const handleCloseAlerta = useCallback(() => {
@@ -64,6 +68,19 @@ export function TorneosDetalles() {
                 let base64ImageString = Buffer.from(result.data, 'binary').toString('base64');
                 setSnapShoot(base64ImageString);
             });
+    }, [data]);
+
+    const marcarTerminado = useCallback(() => {        
+        data.terminado = true;
+
+        updateById(data._id, data).then((result) => {
+            setData(result.data);            
+
+            setDataAlerta({
+                variant: 'success',
+                texto: 'Editado Correctamente'
+            });
+        });
     }, [data])
 
     return (
@@ -92,7 +109,7 @@ export function TorneosDetalles() {
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Nombre Torneo</Form.Label>
-                                    <Form.Control value={data.nombreTorneo.replace('\n\t\t\t\t\t\t\t\t\t\t',' ')} disabled />
+                                    <Form.Control value={data.nombreTorneo.replace('\n\t\t\t\t\t\t\t\t\t\t', ' ')} disabled />
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -122,7 +139,6 @@ export function TorneosDetalles() {
                                             {data.entradasOK ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />}
                                         </Col>
                                     </Row>
-
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -138,6 +154,39 @@ export function TorneosDetalles() {
                                     <Form.Label>Fecha Fin</Form.Label>
                                     <Form.Control value={moment(data.infoTorneo.fechaFinDate).format('DD/MM/YYYY')} disabled />
                                 </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group>
+                                    <Row className={classes.boxMarginBotTop}>
+                                        <Col>
+                                            <Form.Label>Terminado</Form.Label>
+                                        </Col>
+                                    </Row>
+                                    <Row className={classes.boxMarginBotTop}>
+                                        <Col>
+                                            {data.terminado ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />}
+                                        </Col>
+                                    </Row>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group>
+                                    <Row className={classes.boxMarginBotTop}>
+                                        <Col>                                            
+                                        </Col>
+                                    </Row>
+                                    <Row className={classes.boxMarginBotTopButton}>
+                                        <Col>
+                                            <Button onClick={() => marcarTerminado()}>Marcar Terminado</Button>                                            
+                                        </Col>
+                                    </Row>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                            </Col>
+                            <Col>
                             </Col>
                         </Row>
                         <Row className={classes.boxMarginBotTop}>

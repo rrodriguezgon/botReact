@@ -18,7 +18,7 @@ import moment from "moment";
 
 import useStyles from "./index.css";
 
-import { getAll, deleteById } from '../../services/torneos';
+import { getAll, deleteById, deleteAll } from '../../services/torneos';
 
 export function Torneos() {
     const [data, setData] = useState([])
@@ -106,7 +106,7 @@ export function Torneos() {
     }, []);
 
     const eliminarTorneo = useCallback(() => {        
-        deleteById(torneoIdDelete).then((data) => {
+        deleteById(torneoIdDelete).then(() => {
             setShowModal(false);
             getTorneos(formFilter); 
             
@@ -128,7 +128,7 @@ export function Torneos() {
 
         setTorneoIdDelete(undefined);
         
-    }, [torneoIdDelete]);
+    }, [torneoIdDelete, formFilter]);
 
     const handleSearch = useCallback((formData) => {        
         getTorneos(formData);
@@ -148,11 +148,24 @@ export function Torneos() {
         setShowModal(false);
     }, []);
 
+    const handleDeleteAll = useCallback (() => {
+        console.log("borrar todo")
+        
+        deleteAll().then(() => {
+            getTorneos(formFilter); 
+            
+            setDataAlerta({
+                variant: 'success',
+                texto: 'Torneos Eliminados'
+            });
+        });
+    }, [formFilter])
+
     return (
         <Container>
             <Row className={classes.boxSearch}>
                 <Col>
-                    <Filtro search={handleSearch} />
+                    <Filtro search={handleSearch} deleteAll={handleDeleteAll} />
                 </Col>
             </Row>
             <Row>

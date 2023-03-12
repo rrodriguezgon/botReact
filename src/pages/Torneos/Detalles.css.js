@@ -12,6 +12,10 @@ const useStyles = createUseStyles({
         marginBottom: "10px",
         marginTop: "10px",
     },
+    boxMarginBotTopButton: {
+        marginBottom: "10px",
+        marginTop: "30px",
+    },
     checkTrue: {
         color: 'green',         
     },
