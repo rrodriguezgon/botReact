@@ -4,7 +4,8 @@ import {
     Link
 } from "react-router-dom";
 import { Buffer } from "buffer";
-import moment from "moment/moment";
+//import moment from "moment/moment";
+import moment from "moment-timezone";
 
 import { getById, updateById } from "../../services/torneos";
 import { getSnapshoot } from "../../services/selenium";
@@ -29,16 +30,18 @@ export function TorneosDetalles() {
     const [loadingIMG, setLoadingIMG] = useState(false);
     const [showAlerta, setShowAlerta] = useState(false);
     const [dataAlerta, setDataAlerta] = useState();
+    const [timeZones, setTimeZones] = useState();
     const isRunned = useRef(false);
 
     const classes = useStyles();
 
     let { id } = useParams();
 
-    function getTorneo(id){
+    function getTorneo(id) {
         getById(id).then((result) => {
             setLoading(false);
             setData(result.data);
+            setTimeZones(moment.tz.names());
         }).catch((ex) => {
             setDataAlerta({
                 variant: 'danger',
@@ -53,7 +56,7 @@ export function TorneosDetalles() {
         if (isRunned.current) return;
         isRunned.current = true;
 
-        getTorneo(id);       
+        getTorneo(id);
     }, [data]);
 
     const handleCloseAlerta = useCallback(() => {
@@ -70,18 +73,36 @@ export function TorneosDetalles() {
             });
     }, [data]);
 
-    const marcarTerminado = useCallback(() => {        
+    const marcarTerminado = useCallback(() => {
         data.terminado = true;
 
         updateById(data._id, data).then((result) => {
-            setData(result.data);            
+            setData(result.data);
 
             setDataAlerta({
                 variant: 'success',
                 texto: 'Editado Correctamente'
             });
         });
-    }, [data])
+    }, [data]);
+
+    const guardarTimeZone = useCallback(() => {
+        updateById(data._id, data).then((result) => {
+            setData(result.data);
+
+            setDataAlerta({
+                variant: 'success',
+                texto: 'Editado Correctamente'
+            });
+        });
+    }, [data]);
+
+    const handleChangeTimeZone = useCallback((value) => {
+        setData({
+            ...data,
+            timeZone: value.target.value
+        });
+    }, [data]);
 
     return (
         <Container>
@@ -174,19 +195,39 @@ export function TorneosDetalles() {
                             <Col>
                                 <Form.Group>
                                     <Row className={classes.boxMarginBotTop}>
-                                        <Col>                                            
+                                        <Col>
                                         </Col>
                                     </Row>
                                     <Row className={classes.boxMarginBotTopButton}>
                                         <Col>
-                                            <Button onClick={() => marcarTerminado()}>Marcar Terminado</Button>                                            
+                                            <Button onClick={() => marcarTerminado()}>Marcar Terminado</Button>
                                         </Col>
                                     </Row>
                                 </Form.Group>
                             </Col>
                             <Col>
+                                <Form.Group>
+                                    <Form.Label>TimeZone</Form.Label>
+                                    <Form.Select value={data.timeZone} onChange={(value) => handleChangeTimeZone(value)} aria-label="Default select example">
+                                        <option value=''>Elige una zona</option>
+                                        {timeZones.map(opt => (
+                                            <option value={opt}>{opt}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
                             </Col>
                             <Col>
+                                <Form.Group>
+                                    <Row className={classes.boxMarginBotTop}>
+                                        <Col>
+                                        </Col>
+                                    </Row>
+                                    <Row className={classes.boxMarginBotTopButton}>
+                                        <Col>
+                                        <Button onClick={() => guardarTimeZone()}>Guardar TimeZone</Button>
+                                        </Col>
+                                    </Row>
+                                </Form.Group>
                             </Col>
                         </Row>
                         <Row className={classes.boxMarginBotTop}>
