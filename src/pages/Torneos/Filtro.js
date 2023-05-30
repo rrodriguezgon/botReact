@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { deleteAll } from '../../services/torneos';
 
 import useStyles from "./Filtro.css";
 
@@ -25,7 +24,7 @@ function TorneosFiltros({ search, deleteAll }) {
   
     const handleSearch = useCallback(() => {
       search(formData);
-    }, [formData]);
+    }, [formData, search]);
   
     const handleClear = useCallback(() => {
       setFormData({
@@ -34,12 +33,12 @@ function TorneosFiltros({ search, deleteAll }) {
       });
   
       handleSearch();
-    }, []);
+    }, [formData, handleSearch]);
 
     const handleDeleteAll = useCallback(()=> {
-      console.log("eiminarn");
+      console.log("eliminar");
       deleteAll();
-    }, []);
+    }, [deleteAll]);
 
 
     return (
@@ -56,7 +55,7 @@ function TorneosFiltros({ search, deleteAll }) {
                 </Card.Text>
                 <Button variant="primary" className={classes.boxBtnSearch} onClick={handleSearch}>SEARCH</Button>
                 <Button variant="primary" className={classes.boxBtnSearch} onClick={handleClear}>CLEAR</Button>
-                <Button variant="danger" onClick={handleDeleteAll}>ELIMINAR TODOS</Button>
+                <Button variant="danger" onClick={handleDeleteAll} disabled>ELIMINAR TODOS</Button>
             </Card.Body>
         </Card>
     )

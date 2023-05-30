@@ -26,7 +26,7 @@ export function Torneos() {
     const [showAlerta, setShowAlerta] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [dataAlerta, setDataAlerta] = useState({});
-    const [formFilter, setFormFilter] = useState({});
+    const [formFilter, ] = useState({});
     const [torneoIdDelete, setTorneoIdDelete] = useState();
     const isRunned = useRef(false);
     const classes = useStyles();
@@ -55,6 +55,11 @@ export function Torneos() {
         {
             name: 'entradas',
             selector: row => (row.entradasOK ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />),
+            sortable: true,
+        },
+        {
+            name: 'terminado',
+            selector: row => (row.terminado ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />),
             sortable: true,
         },
         {

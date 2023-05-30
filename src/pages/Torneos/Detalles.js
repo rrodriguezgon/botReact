@@ -3,6 +3,8 @@ import {
     useParams,
     Link
 } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { Buffer } from "buffer";
 //import moment from "moment/moment";
 import moment from "moment-timezone";
@@ -22,6 +24,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 // https://icons.getbootstrap.com/
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
+import { deleteById } from '../../services/torneos';
 
 export function TorneosDetalles() {
     const [data, setData] = useState();
@@ -34,6 +37,7 @@ export function TorneosDetalles() {
     const isRunned = useRef(false);
 
     const classes = useStyles();
+    const navigate = useNavigate();
 
     let { id } = useParams();
 
@@ -57,7 +61,7 @@ export function TorneosDetalles() {
         isRunned.current = true;
 
         getTorneo(id);
-    }, [data]);
+    }, [id]);
 
     const handleCloseAlerta = useCallback(() => {
         setShowAlerta(false);
@@ -104,10 +108,21 @@ export function TorneosDetalles() {
         });
     }, [data]);
 
+    const eliminarTorneo = useCallback(() => {        
+        deleteById(data._id).then(() => {
+            navigate("/torneos");                  
+        }).catch((ex) => {            
+        });       
+        
+    }, [data._id,navigate]);
+
     return (
         <Container>
             <Row className={classes.boxMarginBotTop}>
-                <Col md={{ span: 4, offset: 11 }}>
+                <Col>
+                    <Button variant="danger" onClick={() => eliminarTorneo()}>Eliminar</Button>
+                </Col>
+                <Col>
                     <Link to={`/torneos`}><Button variant="primary">Volver</Button></Link>
                 </Col>
             </Row>
@@ -224,7 +239,7 @@ export function TorneosDetalles() {
                                     </Row>
                                     <Row className={classes.boxMarginBotTopButton}>
                                         <Col>
-                                        <Button onClick={() => guardarTimeZone()}>Guardar TimeZone</Button>
+                                            <Button onClick={() => guardarTimeZone()}>Guardar TimeZone</Button>
                                         </Col>
                                     </Row>
                                 </Form.Group>
@@ -255,7 +270,7 @@ export function TorneosDetalles() {
                                 <Row className={classes.boxMarginBotTop}>
                                     {data.infoCuadros.map((cuadro, x) => (
                                         <Col key={x}>
-                                            <a target="_blank" href={'https://worldpadeltour.com/' + cuadro.linkCatFase}><Button>{cuadro.NombreFase} - {cuadro.NombreCategoria}</Button></a>
+                                            <a target="_blank" rel='noreferrer' href={'https://worldpadeltour.com/' + cuadro.linkCatFase}><Button>{cuadro.NombreFase} - {cuadro.NombreCategoria}</Button></a>
                                         </Col>
                                     ))}
                                 </Row>
@@ -274,7 +289,7 @@ export function TorneosDetalles() {
                             </Row>) : (
                                 <Row className={classes.boxMarginBotTop}>
                                     <Col>
-                                        <img src={`data:image/png;base64,${snapShoot}`} />
+                                        <img alt='ImagenTorneo' src={`data:image/png;base64,${snapShoot}`} />
                                     </Col>
                                 </Row>
                             )}
