@@ -114,7 +114,7 @@ export function TorneosDetalles() {
         }).catch((ex) => {            
         });       
         
-    }, [data._id,navigate]);
+    }, [data?._id,navigate]);
 
     return (
         <Container>
