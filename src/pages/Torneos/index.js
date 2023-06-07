@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback, useRef } from "react"
+import React, { useEffect, useState, useCallback, useRef } from "react";
 
-import Filtro from './Filtro';
+import Filtro from './TorneosFiltros';
 
 import Listado from '../../components/Listado';
 import Loading from "../../components/Loading";
@@ -21,12 +21,12 @@ import useStyles from "./index.css";
 import { getAll, deleteById, deleteAll } from '../../services/torneos';
 
 export function Torneos() {
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [dataAlerta, setDataAlerta] = useState({});
-    const [formFilter, ] = useState({});
+    const [formFilter,] = useState({});
     const [torneoIdDelete, setTorneoIdDelete] = useState();
     const isRunned = useRef(false);
     const classes = useStyles();
@@ -35,8 +35,8 @@ export function Torneos() {
         {
             name: 'Torneo',
             selector: row => row.nombreTorneo,
-            sortable: true,            
-        },    
+            sortable: true,
+        },
         {
             name: 'Fecha Inicio',
             selector: row => moment(row.infoTorneo.fechaInicioDate).format('DD/MM/YYYY'),
@@ -76,9 +76,9 @@ export function Torneos() {
         },
     ];
 
-    function getTorneos(formFilter){
+    function getTorneos(_formFilter) {
         setLoading(true);
-        getAll(formFilter).then(((result) => {
+        getAll(_formFilter).then(((result) => {
             setLoading(false);
             setData(result.data);
 
@@ -86,56 +86,58 @@ export function Torneos() {
                 setDataAlerta({
                     variant: 'info',
                     texto: 'no hay datos'
-                })
-                
+                });
+
                 setShowAlerta(true);
             }
         }))
-            .catch((ex) => {
+            .catch(() => {
                 setLoading(false);
 
                 setDataAlerta({
                     variant: 'danger',
                     texto: 'Error API'
                 });
-                
+
                 setShowAlerta(true);
             });
     }
 
     useEffect(() => {
-        if(isRunned.current) return;
+        if (isRunned.current) {
+            return;
+        }
         isRunned.current = true;
-        
+
         getTorneos();
     }, []);
 
-    const eliminarTorneo = useCallback(() => {        
+    const eliminarTorneo = useCallback(() => {
         deleteById(torneoIdDelete).then(() => {
             setShowModal(false);
-            getTorneos(formFilter); 
-            
+            getTorneos(formFilter);
+
             setDataAlerta({
                 variant: 'success',
                 texto: 'Torneo Eliminado'
             });
 
-            setShowAlerta(true);            
-        }).catch((ex) => {
+            setShowAlerta(true);
+        }).catch(() => {
             setDataAlerta({
                 variant: 'danger',
                 texto: 'Error API'
             });
-            
+
             setShowAlerta(true);
             setShowModal(false);
         });
 
         setTorneoIdDelete(undefined);
-        
+
     }, [torneoIdDelete, formFilter]);
 
-    const handleSearch = useCallback((formData) => {        
+    const handleSearch = useCallback((formData) => {
         getTorneos(formData);
     }, []);
 
@@ -143,28 +145,28 @@ export function Torneos() {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
-    const handleOpenModal = useCallback((id) => {        
+    const handleOpenModal = useCallback((id) => {
         setShowModal(true);
         setTorneoIdDelete(id);
     }, []);
 
-    const handleCloseModal = useCallback(() => {        
+    const handleCloseModal = useCallback(() => {
         setTorneoIdDelete(undefined);
         setShowModal(false);
     }, []);
 
-    const handleDeleteAll = useCallback (() => {
-        console.log("borrar todo")
-        
+    const handleDeleteAll = useCallback(() => {
+        console.log("borrar todo");
+
         deleteAll().then(() => {
-            getTorneos(formFilter); 
-            
+            getTorneos(formFilter);
+
             setDataAlerta({
                 variant: 'success',
                 texto: 'Torneos Eliminados'
             });
         });
-    }, [formFilter])
+    }, [formFilter]);
 
     return (
         <Container>
@@ -183,15 +185,15 @@ export function Torneos() {
             </Row>
             <Row>
                 <Col>
-                    <ModalComponent 
-                        showModal={showModal} 
-                        titleHeader="Estas Seguro?" 
-                        textContent="Estas seguro que quieres eliminar este Torneo?" 
+                    <ModalComponent
+                        showModal={showModal}
+                        titleHeader="Estas Seguro?"
+                        textContent="Estas seguro que quieres eliminar este Torneo?"
                         closeModal={handleCloseModal}
                         buttonAcceptFN={eliminarTorneo}
                         buttonCancelFN={handleCloseModal} />
                 </Col>
             </Row>
         </Container>
-    )
+    );
 }

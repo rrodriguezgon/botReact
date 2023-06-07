@@ -7,7 +7,7 @@ function ButtonDetalles({ enlace }) {
         <Link to={ enlace }>
             <Button variant="primary">Detalles</Button>
         </Link>
-    )
+    );
 }
 
 export default ButtonDetalles;

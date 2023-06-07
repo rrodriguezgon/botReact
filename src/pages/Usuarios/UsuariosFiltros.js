@@ -14,7 +14,7 @@ function UsuariosFiltros({ search }) {
   const handleChange = useCallback((event) => {
     const target = event.target;
     const value = target.value;
-    const name = target.name;   
+    const name = target.name;
 
     setFormData({
       ...formData,
@@ -24,7 +24,7 @@ function UsuariosFiltros({ search }) {
 
   const handleSearch = useCallback(() => {
     search(formData);
-  }, [formData]);
+  }, [formData, search]);
 
   const handleClear = useCallback(() => {
     setFormData({
@@ -33,7 +33,7 @@ function UsuariosFiltros({ search }) {
     });
 
     handleSearch();
-  }, []);
+  }, [formData, handleSearch]);
 
   return (
     <Card>

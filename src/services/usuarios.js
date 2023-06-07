@@ -8,7 +8,7 @@ export const getAll = (params = {}) =>
   });
 
 export const getByNick = (nick) =>
-  axios.get(baseURL + `/nick/{nick}`).then((response) => {
+  axios.get(baseURL + `/nick/${nick}`).then((response) => {
     return response;
   });
 

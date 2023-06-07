@@ -84,7 +84,7 @@ function TorneosFiltros({ search, deleteAll }) {
         <Button variant="danger" onClick={handleDeleteAll} disabled>ELIMINAR TODOS</Button>
       </Card.Body>
     </Card >
-  )
+  );
 }
 
 export default TorneosFiltros;

@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback, useRef } from "react"
+import React, { useEffect, useState, useCallback, useRef } from "react";
 
 import Listado from '../../components/Listado';
 import Loading from "../../components/Loading";
 import Alerta from "../../components/Alerta";
 import ButtonDetalles from "../../components/ButtonDetalles";
 import ModalComponent from "../../components/Modal";
-import Filtro from "./Filtro";
+import Filtro from "./UsuariosFiltros";
 
 import useStyles from "./index.css";
 
@@ -56,11 +56,11 @@ export function Usuarios() {
                 <Button variant="danger" onClick={() => handleOpenModal(row._id)}>Eliminar</Button>
             ),
         },
-    ];   
+    ];
 
-    const getUsuarios = useCallback((formFilter) => {
+    const getUsuarios = useCallback((_formFilter) => {
         setLoading(true);
-        getAll(formFilter).then((result) => {
+        getAll(_formFilter).then((result) => {
             setLoading(false);
             setData(result.data);
 
@@ -68,11 +68,11 @@ export function Usuarios() {
                 setDataAlerta({
                     variant: 'info',
                     texto: 'no hay datos'
-                })
+                });
                 setShowAlerta(true);
             }
         })
-            .catch((ex) => {
+            .catch(() => {
                 setData({});
                 setLoading(false);
 
@@ -80,42 +80,44 @@ export function Usuarios() {
                     variant: 'danger',
                     texto: 'Error API'
                 });
-                
+
                 setShowAlerta(true);
             });
-    },[data]);
+    }, []);
 
     useEffect(() => {
-        if(isRunned.current) return;
+        if (isRunned.current) {
+            return;
+        }
         isRunned.current = true;
-        
+
         getUsuarios();
-    }, []);
-    
-    const eliminarUsuario = useCallback(() => {        
-        deleteById(userIdDelete).then((data) => {
+    }, [getUsuarios]);
+
+    const eliminarUsuario = useCallback(() => {
+        deleteById(userIdDelete).then(() => {
             setShowModal(false);
-            getUsuarios(formFilter); 
-            
+            getUsuarios(formFilter);
+
             setDataAlerta({
                 variant: 'sucess',
                 texto: 'Usuario Eliminado'
             });
 
             setShowAlerta(true);
-        }).catch((ex) => {
+        }).catch(() => {
             setDataAlerta({
                 variant: 'danger',
                 texto: 'Error API'
             });
-            
+
             setShowAlerta(true);
             setShowModal(false);
         });
 
         setUserIdDelete(undefined);
-        
-    }, [userIdDelete]);
+
+    }, [formFilter, getUsuarios, userIdDelete]);
 
     const closeAlerta = useCallback(() => {
         setShowAlerta(false);
@@ -124,7 +126,7 @@ export function Usuarios() {
     const handleSearch = useCallback((formData) => {
         setFormFilter(formData);
         getUsuarios(formData);
-    }, [setFormFilter]);
+    }, [getUsuarios]);
 
     const handleOpenModal = useCallback((id) => {
         setUserIdDelete(id);
@@ -153,15 +155,15 @@ export function Usuarios() {
             </Row>
             <Row>
                 <Col>
-                    <ModalComponent 
-                        showModal={showModal} 
-                        titleHeader="Estas Seguro?" 
-                        textContent="Estas seguro que quieres eliminar este Usuario?" 
+                    <ModalComponent
+                        showModal={showModal}
+                        titleHeader="Estas Seguro?"
+                        textContent="Estas seguro que quieres eliminar este Usuario?"
                         closeModal={handleCloseModal}
                         buttonAcceptFN={eliminarUsuario}
                         buttonCancelFN={handleCloseModal} />
                 </Col>
             </Row>
         </Container>
-    )
+    );
 }

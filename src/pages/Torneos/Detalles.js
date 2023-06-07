@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
     useParams,
-    Link
+    Link,
+    useNavigate
 } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 import { Buffer } from "buffer";
-//import moment from "moment/moment";
 import moment from "moment-timezone";
 
-import { getById, updateById } from "../../services/torneos";
+import { getById, updateById, deleteById } from "../../services/torneos";
 import { getSnapshoot } from "../../services/selenium";
 
 import useStyles from "./Detalles.css";
@@ -24,7 +23,6 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 // https://icons.getbootstrap.com/
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
-import { deleteById } from '../../services/torneos';
 
 export function TorneosDetalles() {
     const [data, setData] = useState();
@@ -41,12 +39,12 @@ export function TorneosDetalles() {
 
     let { id } = useParams();
 
-    function getTorneo(id) {
-        getById(id).then((result) => {
+    function getTorneo(_id) {
+        getById(_id).then((result) => {
             setLoading(false);
             setData(result.data);
             setTimeZones(moment.tz.names());
-        }).catch((ex) => {
+        }).catch(() => {
             setDataAlerta({
                 variant: 'danger',
                 texto: 'Error API'
@@ -57,7 +55,9 @@ export function TorneosDetalles() {
     }
 
     useEffect(() => {
-        if (isRunned.current) return;
+        if (isRunned.current) {
+            return;
+        }
         isRunned.current = true;
 
         getTorneo(id);
@@ -108,13 +108,12 @@ export function TorneosDetalles() {
         });
     }, [data]);
 
-    const eliminarTorneo = useCallback(() => {        
+    const eliminarTorneo = useCallback(() => {
         deleteById(data._id).then(() => {
-            navigate("/torneos");                  
-        }).catch((ex) => {            
-        });       
-        
-    }, [data?._id,navigate]);
+            navigate("/torneos");
+        });
+
+    }, [data?._id, navigate]);
 
     return (
         <Container>
@@ -299,5 +298,5 @@ export function TorneosDetalles() {
             )
             }
         </Container >
-    )
+    );
 }

@@ -36,21 +36,23 @@ export function UsuariosDetalles() {
     let { id } = useParams();
 
     useEffect(() => {
-        if(isRunned.current) return;
+        if (isRunned.current) {
+            return;
+        }
         isRunned.current = true;
-        
+
         setLoading(true);
         getById(id).then((result) => {
             setLoading(false);
             setData(result.data);
             setStrikes(result.data.strike);
             setNumEnlaces(result.data.numEnlaces);
-        }).catch((ex) => {
+        }).catch(() => {
             setDataAlerta({
                 variant: 'danger',
                 texto: 'Error API'
             });
-            
+
             setShowAlerta(true);
         });
     }, [id]);
@@ -102,12 +104,12 @@ export function UsuariosDetalles() {
 
             setShowAlerta(true);
 
-        }).catch((ex) => {
+        }).catch(() => {
             setDataAlerta({
                 variant: 'danger',
                 texto: 'Error API'
             });
-            
+
             setShowAlerta(true);
         });
     }, [strikes, numEnlaces, data]);
@@ -208,5 +210,5 @@ export function UsuariosDetalles() {
                 </Col>
             </Row>
         </Container>
-    )
+    );
 }

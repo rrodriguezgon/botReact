@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
-function Alerta({ dataAlerta, closeAlerta }) {  
+function Alerta({ dataAlerta, closeAlerta }) {
   const handleClick = useCallback(() => {
     closeAlerta();
   }, [closeAlerta]);

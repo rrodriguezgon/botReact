@@ -1,6 +1,6 @@
-import { createUseStyles } from 'react-jss'
+import { createUseStyles } from 'react-jss';
 
-const useStyles = createUseStyles({    
+const Detalles = createUseStyles({
     boxPrincipal: {
         textAlign: "center",
     },
@@ -17,7 +17,7 @@ const useStyles = createUseStyles({
         marginTop: "30px",
     },
     checkTrue: {
-        color: 'green',         
+        color: 'green',
     },
     checkFalse: {
         color: 'red',
@@ -27,4 +27,4 @@ const useStyles = createUseStyles({
     }
 });
 
-export default useStyles;
+export default Detalles;
