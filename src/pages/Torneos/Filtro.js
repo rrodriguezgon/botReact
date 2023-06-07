@@ -11,18 +11,17 @@ import DatePicker from "react-datepicker";
 import useStyles from "./Filtro.css";
 
 function TorneosFiltros({ search, deleteAll }) {
-  const [formData, setFormData] = useState({terminado: false});
+  const [formData, setFormData] = useState({});
 
   const classes = useStyles();
 
   const handleChange = useCallback((event) => {
     const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    const {value, name, className, checked} = target;
 
     setFormData({
       ...formData,
-      [name]: value
+      [name]: (className === 'form-check-input' ? checked : value)
     });
   }, [formData]);
 
@@ -38,13 +37,10 @@ function TorneosFiltros({ search, deleteAll }) {
   }, [formData]);
 
   const handleClear = useCallback(() => {
-    setFormData({
-      torneo: '',
-      date: undefined,
-    });
+    setFormData({});
 
     handleSearch();
-  }, [formData, handleSearch]);
+  }, [handleSearch]);
 
   const handleDeleteAll = useCallback(() => {
     console.log("eliminar");
@@ -73,8 +69,7 @@ function TorneosFiltros({ search, deleteAll }) {
                 <Col>
                   <Form.Label>No Terminado</Form.Label>
                   <Form.Check
-                    type="switch"
-                    id="custom-switch"
+                    type="checkbox"
                     name="terminado"
                     value={formData.terminado}
                     onChange={handleChange}
