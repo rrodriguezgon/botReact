@@ -270,7 +270,7 @@ export function TorneosDetalles() {
                                 <Row className={classes.boxMarginBotTop}>
                                     {data.infoCuadros.map((cuadro, x) => (
                                         <Col key={x}>
-                                            <a target="_blank" rel='noreferrer' href={'https://worldpadeltour.com/' + cuadro.linkCatFase}><Button>{cuadro.NombreFase} - {cuadro.NombreCategoria}</Button></a>
+                                            <a target="_blank" rel='noreferrer' href={cuadro.linkCatFase}><Button>{cuadro.NombreFase} - {cuadro.NombreCategoria}</Button></a>
                                         </Col>
                                     ))}
                                 </Row>
