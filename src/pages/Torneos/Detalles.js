@@ -225,7 +225,7 @@ export function TorneosDetalles() {
                                     <Form.Select value={data.timeZone} onChange={(value) => handleChangeTimeZone(value)} aria-label="Default select example">
                                         <option value=''>Elige una zona</option>
                                         {timeZones.map(opt => (
-                                            <option value={opt}>{opt}</option>
+                                            <option key={opt} value={opt}>{opt}</option>
                                         ))}
                                     </Form.Select>
                                 </Form.Group>
@@ -267,8 +267,8 @@ export function TorneosDetalles() {
                                     <Col>Cuadros</Col>
                                 </Row>
                                 <Row className={classes.boxMarginBotTop}>
-                                    {data.infoCuadros.map((cuadro, x) => (
-                                        <Col key={x}>
+                                    {data.infoCuadros.map((cuadro) => (
+                                        <Col key={cuadro}>
                                             <a target="_blank" rel='noreferrer' href={cuadro.linkCatFase}><Button>{cuadro.NombreFase} - {cuadro.NombreCategoria}</Button></a>
                                         </Col>
                                     ))}
