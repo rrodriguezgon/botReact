@@ -9,6 +9,7 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "buffer": "^6.0.3",
+    "enzyme": "^3.11.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.41",
     "react": "^18.2.0",
