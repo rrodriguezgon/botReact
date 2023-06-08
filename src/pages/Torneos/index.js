@@ -31,6 +31,8 @@ export function Torneos() {
     const isRunned = useRef(false);
     const classes = useStyles();
 
+    function checkIconType(field) { return (field ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />) }
+
     const columns = [
         {
             name: 'Torneo',
@@ -49,17 +51,17 @@ export function Torneos() {
         },
         {
             name: 'cuadros',
-            selector: row => (row.cuadrosOK ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />),
+            selector: row => checkIconType(row.cuadrosOK),
             sortable: true,
         },
         {
             name: 'entradas',
-            selector: row => (row.entradasOK ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />),
+            selector: row => checkIconType(row.entradasOK),
             sortable: true,
         },
         {
             name: 'terminado',
-            selector: row => (row.terminado ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />),
+            selector: row => checkIconType(row.terminado),
             sortable: true,
         },
         {
