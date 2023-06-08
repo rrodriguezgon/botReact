@@ -42,7 +42,7 @@ export default function Usuarios() {
             sortable: true,
         },
         {
-            name: 'strike',
+            name: 'strike probar',
             selector: row => row.strike,
             sortable: true,
         },
