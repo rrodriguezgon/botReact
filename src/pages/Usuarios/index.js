@@ -27,7 +27,9 @@ export function Usuarios() {
     const isRunned = useRef(false);
 
     const classes = useStyles();
-
+    
+    function buttonDetails(field) { return <ButtonDetalles enlace={`/usuarios/${field}`} /> }
+    function buttonDelete(field) { return <Button variant="danger" onClick={() => handleOpenModal(field)}>Eliminar</Button>}
     const columns = [
         {
             name: 'nick',
@@ -47,14 +49,12 @@ export function Usuarios() {
         {
             name: '',
             button: true,
-            cell: row => <ButtonDetalles enlace={`/usuarios/${row._id}`} />,
+            cell: row => buttonDetails(row._id),
         },
         {
             name: '',
             button: true,
-            cell: row => (
-                <Button variant="danger" onClick={() => handleOpenModal(row._id)}>Eliminar</Button>
-            ),
+            cell: row => buttonDelete(row._id),
         },
     ];
 
