@@ -64,7 +64,7 @@ export function Usuarios() {
             setLoading(false);
             setData(result.data);
 
-            if (result.data.length === 0) {
+            if (!result.data.length) {
                 setDataAlerta({
                     variant: 'info',
                     texto: 'no hay datos'
