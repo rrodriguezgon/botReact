@@ -144,7 +144,7 @@ export default function TorneosDetalles() {
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Nombre Torneo</Form.Label>
-                                    <Form.Control value={data.nombreTorneo.replace('\n\t\t\t\t\t\t\t\t\t\t', ' ')} disabled />
+                                    <Form.Control value={data.nombreTorneo.replace('\n\t\t\t\t\t\t\t\t\t\t', ' ') || ""} disabled />
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -181,13 +181,13 @@ export default function TorneosDetalles() {
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Fecha Inicio</Form.Label>
-                                    <Form.Control value={moment(data.infoTorneo.fechaInicioDate).format('DD/MM/YYYY')} disabled />
+                                    <Form.Control value={moment(data.infoTorneo.fechaInicioDate).format('DD/MM/YYYY') || ""} disabled />
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Fecha Fin</Form.Label>
-                                    <Form.Control value={moment(data.infoTorneo.fechaFinDate).format('DD/MM/YYYY')} disabled />
+                                    <Form.Control value={moment(data.infoTorneo.fechaFinDate).format('DD/MM/YYYY') || ""} disabled />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -222,7 +222,7 @@ export default function TorneosDetalles() {
                             <Col>
                                 <Form.Group>
                                     <Form.Label>TimeZone</Form.Label>
-                                    <Form.Select value={data.timeZone} onChange={(value) => handleChangeTimeZone(value)} aria-label="Default select example">
+                                    <Form.Select value={data.timeZone || ''} onChange={(value) => handleChangeTimeZone(value)} aria-label="Default select example">
                                         <option value=''>Elige una zona</option>
                                         {timeZones.map(opt => (
                                             <option key={opt} value={opt}>{opt}</option>
@@ -248,7 +248,7 @@ export default function TorneosDetalles() {
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Url Torneo</Form.Label>
-                                    <Form.Control value={data.linkTorneo} disabled />
+                                    <Form.Control value={data.linkTorneo || ""} disabled />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -257,7 +257,7 @@ export default function TorneosDetalles() {
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Url Entradas</Form.Label>
-                                        <Form.Control value={data.linkEntradas} disabled />
+                                        <Form.Control value={data.linkEntradas || ""} disabled />
                                     </Form.Group>
                                 </Col>
                             </Row>)}
@@ -268,7 +268,7 @@ export default function TorneosDetalles() {
                                 </Row>
                                 <Row className={classes.boxMarginBotTop}>
                                     {data.infoCuadros.map((cuadro) => (
-                                        <Col key={cuadro}>
+                                        <Col key={cuadro.linkCatFase}>
                                             <a target="_blank" rel='noreferrer' href={cuadro.linkCatFase}><Button>{cuadro.NombreFase} - {cuadro.NombreCategoria}</Button></a>
                                         </Col>
                                     ))}
