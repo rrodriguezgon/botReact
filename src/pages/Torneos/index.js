@@ -32,6 +32,8 @@ export function Torneos() {
     const classes = useStyles();
 
     function checkIconType(field) { return (field ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />) }
+    function buttonDetails(field) { return <ButtonDetalles enlace={`/torneos/${field}`} /> }
+    function buttonDelete(field) { return <Button variant="danger" onClick={() => handleOpenModal(field)}>Eliminar</Button>}
 
     const columns = [
         {
@@ -67,14 +69,12 @@ export function Torneos() {
         {
             name: '',
             button: true,
-            cell: row => <ButtonDetalles enlace={`/torneos/${row._id}`} />,
+            cell: row => buttonDetails(row._id),
         },
         {
             name: '',
             button: true,
-            cell: row => (
-                <Button variant="danger" onClick={() => handleOpenModal(row._id)}>Eliminar</Button>
-            ),
+            cell: row => buttonDelete(row._id),
         },
     ];
 
