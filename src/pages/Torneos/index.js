@@ -20,7 +20,7 @@ import useStyles from "./index.css";
 
 import { getAll, deleteById, deleteAll } from '../../services/torneos';
 
-export function Torneos() {
+export default function Torneos() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);

@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-export function NavbarComponent() {
+export default function NavbarComponent() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>

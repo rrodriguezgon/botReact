@@ -5,14 +5,14 @@ import {
     Route,
 } from "react-router-dom";
 
-import { Home } from './Home';
-import { Logs } from './Logs';
-import { Torneos } from './Torneos';
-import { TorneosDetalles } from './Torneos/Detalles';
-import { Usuarios } from './Usuarios';
-import { UsuariosDetalles } from './Usuarios/Detalles';
+import Home from './Home';
+import Logs from './Logs';
+import Torneos from './Torneos';
+import TorneosDetalles from './Torneos/Detalles';
+import Usuarios from './Usuarios';
+import UsuariosDetalles from './Usuarios/Detalles';
 
-export function RoutesComponent() {
+export default function RoutesComponent() {
     return (
         <>
             <BrowserRouter>

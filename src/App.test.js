@@ -3,12 +3,13 @@ import App from './App';
 
 test('renders component Navbar', () => {
   render(<App />);
-  const linkElement = screen.getByText('BOT MARCADOR');
-  expect(linkElement).toBeInTheDocument();
+  const titleNavbarComponent = screen.getByText('BOT MARCADOR');
+  expect(titleNavbarComponent).toBeInTheDocument();
 });
 
 test('renders component Routes', () => {
 	render(<App />);
-	const linkElement = screen.getByText('HOME');
-	expect(linkElement).toBeInTheDocument();
+	const titleHomeComponent = screen.getByText('HOME');
+	expect(titleHomeComponent).toBeInTheDocument();
   });
+

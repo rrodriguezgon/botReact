@@ -16,4 +16,3 @@ export default function Listado({ data, columns = [] }) {
         </>
     );
 }
-

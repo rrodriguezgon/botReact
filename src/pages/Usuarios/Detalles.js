@@ -21,7 +21,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import DatePicker from 'react-datepicker';
 
-export function UsuariosDetalles() {
+export default function UsuariosDetalles() {
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
     const [strikes, setStrikes] = useState();

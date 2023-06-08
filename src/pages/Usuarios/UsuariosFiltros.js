@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 import useStyles from "./Filtro.css";
 
-function UsuariosFiltros({ search }) {
+export default function UsuariosFiltros({ search }) {
   const [formData, setFormData] = useState({});
 
   const classes = useStyles();
@@ -54,4 +54,3 @@ function UsuariosFiltros({ search }) {
   );
 }
 
-export default UsuariosFiltros;

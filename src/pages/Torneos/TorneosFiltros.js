@@ -10,7 +10,7 @@ import DatePicker from "react-datepicker";
 
 import useStyles from "./Filtro.css";
 
-function TorneosFiltros({ search, deleteAll }) {
+export default function TorneosFiltros({ search, deleteAll }) {
   const [formData, setFormData] = useState({});
 
   const classes = useStyles();
@@ -86,5 +86,3 @@ function TorneosFiltros({ search, deleteAll }) {
     </Card >
   );
 }
-
-export default TorneosFiltros;

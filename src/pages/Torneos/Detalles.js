@@ -24,7 +24,7 @@ import Form from 'react-bootstrap/Form';
 // https://icons.getbootstrap.com/
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 
-export function TorneosDetalles() {
+export default function TorneosDetalles() {
     const [data, setData] = useState();
     const [snapShoot, setSnapShoot] = useState();
     const [loading, setLoading] = useState(true);
