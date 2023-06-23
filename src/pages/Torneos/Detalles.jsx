@@ -277,7 +277,7 @@ export default function TorneosDetalles() {
                         )}
                         <Row className={classes.boxMarginBotTop}>
                             <Col>
-                                <Button onClick={() => MostrarPagina()}>Visualizar Pagina</Button>
+                                <Button data-testid="btnViewPage" onClick={() => MostrarPagina()}>Visualizar Pagina</Button>
                             </Col>
                         </Row>
                         {
