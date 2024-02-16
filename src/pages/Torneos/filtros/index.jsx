@@ -8,10 +8,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import DatePicker from "react-datepicker";
 
-import useStyles from "./Filtro.css";
+import useStyles from "./index.css";
 
 export default function TorneosFiltros({ search, deleteAll }) {
-  const [formData, setFormData] = useState({});
+  const [filters, setFilters] = useState({});
 
   const classes = useStyles();
 
@@ -19,31 +19,24 @@ export default function TorneosFiltros({ search, deleteAll }) {
     const target = event.target;
     const {value, name, className, checked} = target;
 
-    setFormData({
-      ...formData,
+    setFilters((prevState) => ({
+      ...prevState,
       [name]: (className === 'form-check-input' ? checked : value)
-    });
-  }, [formData]);
+    }));
+  }, []);
 
   const handleSearch = useCallback(() => {
-    search(formData);
-  }, [formData, search]);
+    search(filters);
+  }, [filters]);
 
   const handleChangeDate = useCallback((date) => {
-    setFormData({
-      ...formData,
-      date,
-    });
-  }, [formData]);
-
-  const handleClear = useCallback(() => {
-    setFormData({});
-
-    handleSearch();
-  }, [handleSearch]);
+    setFilters((prevState) => ({
+      ...prevState,
+      date
+    }));
+  }, []);
 
   const handleDeleteAll = useCallback(() => {
-    console.log("eliminar");
     deleteAll();
   }, [deleteAll]);
 
@@ -59,19 +52,19 @@ export default function TorneosFiltros({ search, deleteAll }) {
                 <Col>
                   <Form.Group>
                     <Form.Label>Nombre Torneo</Form.Label>
-                    <Form.Control placeholder="Nombre Torneo" value={formData.torneo} name="nombre" onChange={handleChange} />
+                    <Form.Control placeholder="Nombre Torneo" value={filters.nombre} name="nombre" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col>
                   <Form.Label>Fecha Desde</Form.Label>
-                  <DatePicker dateFormat="dd/MM/yyyy" selected={formData.date} onChange={(date) => handleChangeDate(date)} />
+                  <DatePicker dateFormat="dd/MM/yyyy" selected={filters.date} onChange={(date) => handleChangeDate(date)} />
                 </Col>
                 <Col>
                   <Form.Label>No Terminado</Form.Label>
                   <Form.Check
                     type="checkbox"
                     name="terminado"
-                    value={formData.terminado}
+                    value={filters.terminado}
                     onChange={handleChange}
                   />
                 </Col>
@@ -80,7 +73,6 @@ export default function TorneosFiltros({ search, deleteAll }) {
           </Container>
         </Card.Text>
         <Button variant="primary" className={classes.boxBtnSearch} onClick={handleSearch}>SEARCH</Button>
-        <Button variant="primary" className={classes.boxBtnSearch} onClick={handleClear}>CLEAR</Button>
         <Button variant="danger" onClick={handleDeleteAll} disabled>ELIMINAR TODOS</Button>
       </Card.Body>
     </Card >

@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import lodash from 'lodash';
 
-import Filtro from './TorneosFiltros';
+import Filtro from '../filtros';
 
-import Listado from '../../components/Listado';
-import Loading from "../../components/Loading";
-import Alerta from "../../components/Alerta";
-import ButtonDetalles from "../../components/ButtonDetalles";
-import ModalComponent from "../../components/Modal";
+import Listado from '../../../components/Listado';
+import Loading from "../../../components/Loading";
+import Alerta from "../../../components/Alerta";
+import ButtonDetalles from "../../../components/ButtonDetalles";
+import ModalComponent from "../../../components/Modal";
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -14,51 +15,38 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 
-import moment from "moment";
-
 import useStyles from "./index.css";
 
-import { getAll, deleteById, deleteAll } from '../../services/torneos';
+import { getAll, getAllWithFilters, deleteById, deleteAll } from '../../../services/torneos';
 
 export default function Torneos() {
-    const [data, setData] = useState([]);
+    const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [dataAlerta, setDataAlerta] = useState({});
-    const [formFilter,] = useState({});
     const [torneoIdDelete, setTorneoIdDelete] = useState();
-    const isRunned = useRef(false);
+    const [filters, setFilters] = useState({});
     const classes = useStyles();
 
     function checkIconType(field) { return (field ? <CheckCircleFill className={classes.checkTrue} /> : <XCircleFill className={classes.checkFalse} />) }
     function buttonDetails(field) { return <ButtonDetalles enlace={`/torneos/${field}`} /> }
-    function buttonDelete(field) { return <Button variant="danger" onClick={() => handleOpenModal(field)}>Eliminar</Button>}
+    function buttonDelete(field) { return <Button variant="danger" onClick={() => handleOpenModal(field)}>Eliminar</Button> }
 
     const columns = [
         {
             name: 'Torneo',
-            selector: row => row.nombreTorneo,
+            selector: row => row.nombre,
             sortable: true,
         },
         {
             name: 'Fecha Inicio',
-            selector: row => moment(row.infoTorneo.fechaInicioDate).format('DD/MM/YYYY'),
+            selector: row => row.fechaInicio,
             sortable: true,
         },
         {
             name: 'Fecha Fin',
-            selector: row => moment(row.infoTorneo.fechaFinDate).format('DD/MM/YYYY'),
-            sortable: true,
-        },
-        {
-            name: 'cuadros',
-            selector: row => checkIconType(row.cuadrosOK),
-            sortable: true,
-        },
-        {
-            name: 'entradas',
-            selector: row => checkIconType(row.entradasOK),
+            selector: row => row.fechaFin,
             sortable: true,
         },
         {
@@ -78,21 +66,22 @@ export default function Torneos() {
         },
     ];
 
-    function getTorneos(_formFilter) {
+    function getTorneos(filters) {
         setLoading(true);
-        getAll(_formFilter).then(((result) => {
-            setLoading(false);
-            setData(result.data);
+        (Object.keys(filters || {}).length ? getAllWithFilters(filters) : getAll())
+            .then((({ data }) => {
+                setLoading(false);
+                setList(data);
 
-            if (result.data.length === 0) {
-                setDataAlerta({
-                    variant: 'info',
-                    texto: 'no hay datos'
-                });
+                if (data.length === 0) {
+                    setDataAlerta({
+                        variant: 'info',
+                        texto: 'no hay datos'
+                    });
 
-                setShowAlerta(true);
-            }
-        }))
+                    setShowAlerta(true);
+                }
+            }))
             .catch(() => {
                 setLoading(false);
 
@@ -106,18 +95,13 @@ export default function Torneos() {
     }
 
     useEffect(() => {
-        if (isRunned.current) {
-            return;
-        }
-        isRunned.current = true;
-
         getTorneos();
     }, []);
 
     const eliminarTorneo = useCallback(() => {
         deleteById(torneoIdDelete).then(() => {
             setShowModal(false);
-            getTorneos(formFilter);
+            getTorneos(filters);
 
             setDataAlerta({
                 variant: 'success',
@@ -137,10 +121,11 @@ export default function Torneos() {
 
         setTorneoIdDelete(undefined);
 
-    }, [torneoIdDelete, formFilter]);
+    }, [torneoIdDelete, filters]);
 
-    const handleSearch = useCallback((formData) => {
-        getTorneos(formData);
+    const handleSearch = useCallback((filters) => {
+        setFilters(filters);
+        getTorneos(filters);
     }, []);
 
     const closeAlerta = useCallback(() => {
@@ -158,17 +143,15 @@ export default function Torneos() {
     }, []);
 
     const handleDeleteAll = useCallback(() => {
-        console.log("borrar todo");
-
         deleteAll().then(() => {
-            getTorneos(formFilter);
+            getTorneos(filters);
 
             setDataAlerta({
                 variant: 'success',
                 texto: 'Torneos Eliminados'
             });
         });
-    }, [formFilter]);
+    }, [filters]);
 
     return (
         <Container>
@@ -182,7 +165,7 @@ export default function Torneos() {
                     {showAlerta &&
                         <Alerta dataAlerta={dataAlerta}
                             closeAlerta={closeAlerta} />}
-                    {loading ? <Loading /> : <Listado data={data} columns={columns} />}
+                    {loading ? <Loading /> : <Listado data={list} columns={columns} />}
                 </Col>
             </Row>
             <Row>

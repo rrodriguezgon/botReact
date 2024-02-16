@@ -8,13 +8,13 @@ import {
 import { Buffer } from "buffer";
 import moment from "moment-timezone";
 
-import { getById, updateById, deleteById } from "../../services/torneos";
-import { getSnapshoot } from "../../services/selenium";
+import { getById, updateById, deleteById } from "../../../services/torneos";
+import { getSnapshoot } from "../../../services/selenium";
 
-import useStyles from "./Detalles.css";
+import useStyles from "./index.css";
 
-import Loading from "../../components/Loading";
-import Alerta from "../../components/Alerta";
+import Loading from "../../../components/Loading";
+import Alerta from "../../../components/Alerta";
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';

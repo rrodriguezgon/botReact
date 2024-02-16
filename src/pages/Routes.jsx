@@ -7,8 +7,8 @@ import {
 
 import Home from './Home';
 import Logs from './Logs';
-import Torneos from './Torneos';
-import TorneosDetalles from './Torneos/Detalles';
+import Torneos from './Torneos/listado/index';
+import TorneosDetalles from './Torneos/detalles/index';
 import Usuarios from './Usuarios';
 import UsuariosDetalles from './Usuarios/Detalles';
 
