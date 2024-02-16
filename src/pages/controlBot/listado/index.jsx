@@ -18,7 +18,7 @@ import useStyles from "./index.css";
 
 import { getAll, getAllWithFilters, deleteById, deleteAll } from '../../../services/torneos';
 
-export default function Torneos() {
+export default function ControlBot() {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);

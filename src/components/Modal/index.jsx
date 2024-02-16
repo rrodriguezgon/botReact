@@ -2,6 +2,8 @@ import React from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
 export default function ModalComponent({
     showModal,
@@ -19,7 +21,11 @@ export default function ModalComponent({
                         <Modal.Title>{titleHeader}</Modal.Title>
                     </Modal.Header>
                 }
-                <Modal.Body> {textContent}</Modal.Body>
+                <Modal.Body>
+                    <Container>
+                        <Row>{textContent}</Row>                        
+                    </Container>
+                </Modal.Body>
                 {(buttonAcceptFN || buttonCancelFN) &&
                     <Modal.Footer>
                         {buttonCancelFN &&

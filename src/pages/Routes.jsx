@@ -6,9 +6,9 @@ import {
 } from "react-router-dom";
 
 import Home from './Home';
-import Logs from './Logs';
-import Torneos from './Torneos/listado/index';
-import TorneosDetalles from './Torneos/detalles/index';
+import Logs from './Logs/listado';
+import Torneos from './Torneos/listado';
+import TorneosDetalles from './Torneos/detalles';
 import Usuarios from './Usuarios';
 import UsuariosDetalles from './Usuarios/Detalles';
 
