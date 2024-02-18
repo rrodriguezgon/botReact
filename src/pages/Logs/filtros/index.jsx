@@ -11,6 +11,10 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
 
   const classes = useStyles();
 
+  const handleSearch = useCallback(() => {
+    search(filters);
+  }, [filters]);
+  
   const handleChange = useCallback((evt) => {
     const { name, value } = evt.target;
     setFilters((prevState) => ({
@@ -18,10 +22,6 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
       [name]: value
     }));
   }, []);
-
-  const handleSearch = useCallback(() => {
-    search(filters);
-  }, [filters]);
 
   const handleChangeDate = useCallback((date) => {
     setFilters((prevState) => ({

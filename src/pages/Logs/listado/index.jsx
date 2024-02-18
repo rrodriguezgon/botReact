@@ -10,6 +10,7 @@ import ModalComponent from "../../../components/Modal";
 import { Container, Grid, TextField, Button } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
+import moment from 'moment';
 
 import { getAll, getAllWithFilters } from '../../../services/logs';
 
@@ -26,7 +27,7 @@ const Logs = () => {
     const [filters, setFilters] = useState({});
     const classes = useStyles();
 
-    function buttonDetails(row) { return <Button variant="contained" onClick={() => handleOpenModal(row)}>Ver Detalles</Button> }
+    function buttonDetails(row) { return <Button variant="contained" onClick={() => handleOpenModal(row)}>Detalles</Button> }
     const columns = [
         {
             name: 'Tipo',
@@ -40,7 +41,7 @@ const Logs = () => {
         },
         {
             name: 'Fecha',
-            selector: row => row.date,
+            selector: row => moment(row.date).format('DD/MM/YYYY hh:mm'),
             sortable: true,
         },
         {

@@ -1,80 +1,78 @@
 import { useCallback, useState } from 'react';
 
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import DatePicker from "react-datepicker";
+import { Container, Grid, Card, CardContent, CardActions, TextField, FormGroup, FormControlLabel, Checkbox, Button } from '@mui/material';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 import useStyles from "./index.css";
 
-export default function TorneosFiltros({ search, deleteAll }) {
+export default function Filtros({ search }) {
   const [filters, setFilters] = useState({});
 
   const classes = useStyles();
-
-  const handleChange = useCallback((event) => {
-    const target = event.target;
-    const {value, name, className, checked} = target;
-
-    setFilters((prevState) => ({
-      ...prevState,
-      [name]: (className === 'form-check-input' ? checked : value)
-    }));
-  }, []);
 
   const handleSearch = useCallback(() => {
     search(filters);
   }, [filters]);
 
-  const handleChangeDate = useCallback((date) => {
+  const handleChange = useCallback((event) => {
+    const target = event.target;
+    const { value, name, checked } = target;
+
     setFilters((prevState) => ({
       ...prevState,
-      date
+      [name]: (checked ? checked : value)
     }));
   }, []);
 
-  const handleDeleteAll = useCallback(() => {
-    deleteAll();
-  }, [deleteAll]);
+  const handleChangeDate = useCallback((date) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      date: dayjs(date).toDate()
+    }));
+  }, []);
 
 
   return (
     <Card>
-      <Card.Header>Torneos</Card.Header>
-      <Card.Body>
-        <Card.Text>
-          <Container>
-            <Form>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Nombre Torneo</Form.Label>
-                    <Form.Control placeholder="Nombre Torneo" value={filters.nombre} name="nombre" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Label>Fecha Desde</Form.Label>
-                  <DatePicker dateFormat="dd/MM/yyyy" selected={filters.date} onChange={(date) => handleChangeDate(date)} />
-                </Col>
-                <Col>
-                  <Form.Label>No Terminado</Form.Label>
-                  <Form.Check
-                    type="checkbox"
-                    name="terminado"
-                    value={filters.terminado}
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Row>
-            </Form>
-          </Container>
-        </Card.Text>
-        <Button variant="primary" className={classes.boxBtnSearch} onClick={handleSearch}>SEARCH</Button>
-        <Button variant="danger" onClick={handleDeleteAll} disabled>ELIMINAR TODOS</Button>
-      </Card.Body>
+      <CardContent>
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <TextField
+                name="nombre"
+                label="Nombre"
+                value={filters.nombre}
+                onChange={handleChange}
+                margin="dense"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <DatePicker
+                name="date"
+                fullWidth
+                className={classes.boxMarginTop}
+                label="Fecha"
+                format="DD-MM-YYYY"
+                value={dayjs(filters.date)}
+                onChange={(date) => handleChangeDate(date)}
+                slotProps={{
+                  field: { clearable: true },
+                }} />
+            </Grid>
+            <Grid item xs={4}>
+              <FormGroup>
+                <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="terminado" onChange={handleChange} />} label="No terminado" />
+              </FormGroup>
+            </Grid>
+          </Grid>
+        </Container>
+      </CardContent>
+      <CardActions>
+        <Button variant="contained" onClick={() => handleSearch()}>Search</Button>
+      </CardActions>
     </Card >
   );
 }
