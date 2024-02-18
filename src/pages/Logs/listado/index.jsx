@@ -53,7 +53,7 @@ const Logs = () => {
     const comandosOptions = useMemo(()=> (list.length ? [...(new Set(list.map(log => log.nameCommand)))] : []),[list]);
     const typesOptions = useMemo(()=> (list.length ? [...(new Set(list.map(log => log.type)))] : []),[list]);
 
-    function getTorneos(filters) {
+    function getLogs(filters) {
         setLoading(true);
         (Object.keys(filters || {}).length ? getAllWithFilters(filters) : getAll())
             .then((({ data }) => {
@@ -82,7 +82,7 @@ const Logs = () => {
     }
 
     useEffect(() => {
-        getTorneos();
+        getLogs();
     }, []);
 
     const closeAlerta = useCallback(() => {
@@ -91,7 +91,7 @@ const Logs = () => {
 
     const handleSearch = useCallback((filters) => {
         setFilters(filters);
-        getTorneos(filters);
+        getLogs(filters);
     }, []);
 
     const handleOpenModal = useCallback((row) => {

@@ -11,10 +11,11 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
 
   const classes = useStyles();
 
-  const handleChange = useCallback((name, item) => {
+  const handleChange = useCallback((evt) => {
+    const { name, value } = evt.target;
     setFilters((prevState) => ({
       ...prevState,
-      [name]: item.value
+      [name]: value
     }));
   }, []);
 
