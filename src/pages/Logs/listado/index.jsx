@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 
 import Filtro from '../filtros';
 
@@ -7,14 +7,14 @@ import Loading from "../../../components/Loading";
 import Alerta from "../../../components/Alerta";
 import ModalComponent from "../../../components/Modal";
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Grid, TextField, Button } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+
+import { getAll, getAllWithFilters } from '../../../services/logs';
 
 import useStyles from "./index.css";
 
-import { getAll, getAllWithFilters } from '../../../services/logs';
-import { Button } from "react-bootstrap";
 
 const Logs = () => {
     const [list, setList] = useState([]);
@@ -26,7 +26,7 @@ const Logs = () => {
     const [filters, setFilters] = useState({});
     const classes = useStyles();
 
-    function buttonDetails(row) { return <Button variant="primary" onClick={() => handleOpenModal(row)}>Ver Detalles</Button> }
+    function buttonDetails(row) { return <Button variant="contained" onClick={() => handleOpenModal(row)}>Ver Detalles</Button> }
     const columns = [
         {
             name: 'Tipo',
@@ -49,6 +49,9 @@ const Logs = () => {
             cell: row => buttonDetails(row),
         },
     ];
+
+    const comandosOptions = useMemo(()=> (list.length ? [...(new Set(list.map(log => log.nameCommand)))] : []),[list]);
+    const typesOptions = useMemo(()=> (list.length ? [...(new Set(list.map(log => log.type)))] : []),[list]);
 
     function getTorneos(filters) {
         setLoading(true);
@@ -102,44 +105,69 @@ const Logs = () => {
 
     return (
         <Container>
-            <Row className={classes.boxSearch}>
-                <Col>
-                    <Filtro search={handleSearch} />
-                </Col>
-            </Row>
-            <Row>
-                {showAlerta &&
-                    <Alerta dataAlerta={dataAlerta}
-                        closeAlerta={closeAlerta} />}
-                {loading ? <Loading /> : <Listado data={list} columns={columns} />}
-            </Row>
-            <Row>
-                <Col>
+            <Grid container spacing={2} xs={12}>
+                <Grid item className={classes.boxSearch} xs={12}>
+                    <Filtro search={handleSearch} comandosOptions={comandosOptions} typesOptions={typesOptions} />
+                </Grid>
+                <Grid item xs={12}>
+                    {showAlerta &&
+                        <Alerta dataAlerta={dataAlerta}
+                            closeAlerta={closeAlerta} />}
+                    {loading ? <Loading /> : <Listado data={list} columns={columns} />}
+                </Grid>
+                <Grid item>
                     <ModalComponent
                         showModal={showModal}
                         titleHeader="Estas Seguro?"
-                        textContent={<Details row={detail} />}
+                        textContent={<Details row={detail} classes={classes} />}
                         closeModal={handleCloseModal} />
-                </Col>
-            </Row>
+                </Grid>
+            </Grid>
         </Container>
     );
 }
 
-const Details = ({ row }) => {
+const Details = ({ row, classes }) => {
     return <Container>
-        <Row>
-            <Col>{row._id}</Col>
-        </Row>
-        <Row>
-            <Col>{row.nameCommand}</Col>
-        </Row>
-        <Row>
-            <Col>{row.type}</Col>
-        </Row>
-        <Row>
-            <Col>{row.stacktrace}</Col>
-        </Row>
+        <Grid container spacing={2}>
+            <Grid item xs={6}>
+                <TextField
+                    label="Comando"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    value={row.nameCommand}
+                    margin="dense"
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={6}>
+                <TextField
+                    label="Tipo"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    value={row.type}
+                    margin="dense"
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <DateTimePicker fullWidth className={classes.boxMarginTop} label="Fecha" format="DD-MM-YYYY hh:mm" value={dayjs(row.date)} margin="dense" readOnly />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                    label="Stacktrace"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    value={row.stacktrace}
+                    multiline
+                    margin="dense"
+                    fullWidth
+                />
+            </Grid>
+        </Grid>
     </Container>;
 };
 

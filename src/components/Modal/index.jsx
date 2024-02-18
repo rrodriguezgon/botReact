@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function ModalComponent({
     showModal,
@@ -15,7 +16,7 @@ export default function ModalComponent({
 }) {
     return (
         <>
-            <Modal show={showModal} onHide={() => closeModal()}>
+            <Modal show={showModal} onHide={() => closeModal()} size='lg'>
                 {titleHeader !== '' &&
                     <Modal.Header closeButton>
                         <Modal.Title>{titleHeader}</Modal.Title>
@@ -23,7 +24,7 @@ export default function ModalComponent({
                 }
                 <Modal.Body>
                     <Container>
-                        <Row>{textContent}</Row>                        
+                        <Row><Col xs={12}>{textContent}</Col></Row>                        
                     </Container>
                 </Modal.Body>
                 {(buttonAcceptFN || buttonCancelFN) &&

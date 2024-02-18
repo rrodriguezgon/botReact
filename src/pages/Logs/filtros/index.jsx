@@ -1,27 +1,20 @@
 import { useCallback, useState } from 'react';
 
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import DatePicker from "react-datepicker";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 import useStyles from "./index.css";
+import { Container, Grid, Card, CardContent, CardActions, Select, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
 
-export default function Filtros({ search }) {
+export default function Filtros({ search, comandosOptions, typesOptions }) {
   const [filters, setFilters] = useState({});
 
   const classes = useStyles();
 
-  const handleChange = useCallback((event) => {
-    const target = event.target;
-    const { value, name, className, checked } = target;
-
+  const handleChange = useCallback((name, item) => {
     setFilters((prevState) => ({
       ...prevState,
-      [name]: (className === 'form-check-input' ? checked : value)
+      [name]: item.value
     }));
   }, []);
 
@@ -32,67 +25,83 @@ export default function Filtros({ search }) {
   const handleChangeDate = useCallback((date) => {
     setFilters((prevState) => ({
       ...prevState,
-      date
+      date: dayjs(date).toDate()
     }));
   }, []);
 
 
   return (
     <Card>
-      <Card.Header>Torneos</Card.Header>
-      <Card.Body>
-        <Card.Text>
-          <Container>
-            <Form>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Comando</Form.Label>
-                    <Form.Select name="comando" value={filters.comando} onChange={handleChange}>
-                      <option value="">Comando</option>
-                      <option value="lanzarComando">lanzarComando</option>
-                      <option value="ready">ready</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Tipo</Form.Label>
-                    <Form.Select name="type" value={filters.type} onChange={handleChange}>
-                      <option value="">Tipo</option>
-                      <option value="Error">Error</option>
-                      <option value="Info">Info</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-              <Col>
-                  <Form.Label>Fecha Desde</Form.Label>
-                  <DatePicker dateFormat="dd/MM/yyyy" selected={filters.date} onChange={(date) => handleChangeDate(date)} />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Orden Fecha</Form.Label>
-                    <Form.Select name="orden" value={filters.orden} onChange={handleChange}>
-                      <option>Orden</option>
-                      <option value="asc">ascendente</option>
-                      <option value="desc">descendente</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Form>
-            <Row>
-              <Col>
-                <Button variant="primary" className={classes.boxBtnSearch} onClick={handleSearch}>SEARCH</Button>
-              </Col>
-            </Row>
-          </Container>
-        </Card.Text>
-      </Card.Body>
+      <CardContent>
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="select-label-comando">Comando</InputLabel>
+                <Select
+                  name="Comando"
+                  labelId='select-label-comando'
+                  value={filters.type}
+                  label="Tipo"
+                  onChange={handleChange}
+                  margin='dense'
+                  fullWidth
+                >
+                  {comandosOptions.map(comando => <MenuItem value={comando}>{comando}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="select-label-tipo">Tipo</InputLabel>
+                <Select
+                  name="type"
+                  labelId='select-label-tipo'
+                  value={filters.type}
+                  label="Tipo"
+                  onChange={handleChange}
+                  margin='dense'
+                  fullWidth
+                >
+                  {typesOptions.map(type => <MenuItem value={type}>{type}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <DatePicker
+                name="date"
+                fullWidth
+                className={classes.boxMarginTop}
+                label="Fecha"
+                format="DD-MM-YYYY"
+                value={dayjs(filters.date)}
+                onChange={(date) => handleChangeDate(date)}
+                slotProps={{
+                  field: { clearable: true },
+                }} />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="select-label-orden">Orden</InputLabel>
+                <Select
+                  name="orden"
+                  labelId='select-label-orden'
+                  value={filters.orden}
+                  onChange={handleChange}
+                  margin='dense'
+                  fullWidth
+                >
+                  <MenuItem value="asc">ascendente</MenuItem>
+                  <MenuItem value="desc">descendente</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Container>
+      </CardContent>
+      <CardActions>
+        <Button variant="contained" onClick={() => handleSearch()}>Search</Button>
+      </CardActions>
     </Card >
   );
 }
