@@ -1,8 +1,8 @@
 import { createUseStyles } from 'react-jss';
 
 const Detalles = createUseStyles({
-    boxPrincipal: {
-        textAlign: "center",
+    boxMarginTop: {
+        marginTop: '8px',
     },
     boxBtnNumeros: {
         textAlign: "center",

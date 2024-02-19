@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import useStyles from "./index.css";
 
 export default function Filtros({ search, estadoOptions, typesOptions }) {
-  const [filters, setFilters] = useState({nombre: null, estado: null, date: null, terminado: null});
+  const [filters, setFilters] = useState({nombre: null, type: null, estado: null, date: null, terminado: null});
 
   const classes = useStyles();
 
@@ -22,7 +22,7 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
 
     setFilters((prevState) => ({
       ...prevState,
-      [name]: (checked ? checked : value)
+      [name]: ( checked ? checked : value)
     }));
   }, []);
 
@@ -73,7 +73,7 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
               <FormControl fullWidth>
                 <InputLabel id="select-label-tipo">Tipo</InputLabel>
                 <Select
-                  name="estado"
+                  name="type"
                   labelId='select-label-tipo'
                   className={classes.boxMarginTop}
                   value={filters.type}

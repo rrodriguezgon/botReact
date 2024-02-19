@@ -34,12 +34,12 @@ export default function Torneos() {
         },
         {
             name: 'Fecha Inicio',
-            selector: row => (row.fechaInicio ? moment(row.fechaInicio).format('MM/DD/YYYY') : ''),
+            selector: row => (row.fechaInicioDate ? moment(row.fechaInicioDate).format('DD/MM/YYYY') : ''),
             sortable: true,
         },
         {
             name: 'Fecha Fin',
-            selector: row => (row.fechaFin ? moment(row.fechaFin).format('MM/DD/YYYY') : ''),
+            selector: row => (row.fechaFinDate ? moment(row.fechaFinDate).format('DD/MM/YYYY') : ''),
             sortable: true,
         },
         {
@@ -48,9 +48,9 @@ export default function Torneos() {
             sortable: true,
         },
         {
-        name: 'cuadros',
-        selector: row => checkIconType(row.cuadros.length),
-        sortable: true,
+            name: 'cuadros',
+            selector: row => checkIconType(row.cuadros.length),
+            sortable: true,
         },
         {
             name: '',
@@ -99,8 +99,8 @@ export default function Torneos() {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
-    const estadoOptions = useMemo(()=> (list.length ? [...(new Set(list.filter(torneo => torneo.estado !== '').map(torneo => torneo.estado)))] : []),[list]);
-    const typesOptions = useMemo(()=> (list.length ? [...(new Set(list.filter(torneo => torneo.tipo).map(torneo => torneo.tipo)))] : []),[list]);
+    const estadoOptions = useMemo(() => (list.length ? [...(new Set(list.filter(torneo => torneo.estado).map(torneo => torneo.estado)))] : []), [list]);
+    const typesOptions = useMemo(() => (list.length ? [...(new Set(list.filter(torneo => torneo.tipo).map(torneo => torneo.tipo)))] : []), [list]);
 
     return (
         <Container>
