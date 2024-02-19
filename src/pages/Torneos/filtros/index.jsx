@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 import useStyles from "./index.css";
 
-export default function Filtros({ search, estadoOptions }) {
+export default function Filtros({ search, estadoOptions, typesOptions }) {
   const [filters, setFilters] = useState({nombre: null, estado: null, date: null, terminado: null});
 
   const classes = useStyles();
@@ -54,18 +54,35 @@ export default function Filtros({ search, estadoOptions }) {
             </Grid>
             <Grid item xs={4}>
               <FormControl fullWidth>
-                <InputLabel id="select-label-tipo">Estado</InputLabel>
+                <InputLabel id="select-label-estado">Estado</InputLabel>
                 <Select
                   name="estado"
                   labelId='select-label-estado'
                   className={classes.boxMarginTop}
                   value={filters.estado}
-                  label="Tipo"
+                  label="Estado"
                   onChange={handleChange}
                   margin='dense'
                   fullWidth
                 >
                   {estadoOptions.map(estado => <MenuItem value={estado}>{estado}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="select-label-tipo">Tipo</InputLabel>
+                <Select
+                  name="estado"
+                  labelId='select-label-tipo'
+                  className={classes.boxMarginTop}
+                  value={filters.type}
+                  label="Tipo"
+                  onChange={handleChange}
+                  margin='dense'
+                  fullWidth
+                >
+                  {typesOptions.map(tipo => <MenuItem value={tipo}>{tipo}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>

@@ -99,13 +99,14 @@ export default function Torneos() {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
-    const estadoOptions = useMemo(()=> (list.length ? [...(new Set(list.map(torneo => torneo.estado)))] : []),[list]);
+    const estadoOptions = useMemo(()=> (list.length ? [...(new Set(list.filter(torneo => torneo.estado !== '').map(torneo => torneo.estado)))] : []),[list]);
+    const typesOptions = useMemo(()=> (list.length ? [...(new Set(list.filter(torneo => torneo.tipo).map(torneo => torneo.tipo)))] : []),[list]);
 
     return (
         <Container>
             <Grid container spacing={2} xs={12}>
                 <Grid item className={classes.boxSearch} xs={12}>
-                    <Filtro search={handleSearch} estadoOptions={estadoOptions} />
+                    <Filtro search={handleSearch} estadoOptions={estadoOptions} typesOptions={typesOptions} />
                 </Grid>
                 <Grid item xs={12}>
                     {showAlerta &&
