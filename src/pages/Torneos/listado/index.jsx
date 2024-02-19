@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 
 import Filtro from '../filtros';
 
@@ -99,11 +99,13 @@ export default function Torneos() {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
+    const estadoOptions = useMemo(()=> (list.length ? [...(new Set(list.map(torneo => torneo.estado)))] : []),[list]);
+
     return (
         <Container>
             <Grid container spacing={2} xs={12}>
                 <Grid item className={classes.boxSearch} xs={12}>
-                    <Filtro search={handleSearch} />
+                    <Filtro search={handleSearch} estadoOptions={estadoOptions} />
                 </Grid>
                 <Grid item xs={12}>
                     {showAlerta &&

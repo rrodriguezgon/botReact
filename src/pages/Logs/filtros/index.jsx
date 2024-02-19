@@ -7,7 +7,7 @@ import useStyles from "./index.css";
 import { Container, Grid, Card, CardContent, CardActions, Select, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
 
 export default function Filtros({ search, comandosOptions, typesOptions }) {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({comando: null, tipo: null, orden: null, date: null});
 
   const classes = useStyles();
 
@@ -30,6 +30,9 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
     }));
   }, []);
 
+  const handleClear = useCallback(() => {
+    setFilters({});
+  }, []);
 
   return (
     <Card>
@@ -40,7 +43,7 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
               <FormControl fullWidth>
                 <InputLabel id="select-label-comando">Comando</InputLabel>
                 <Select
-                  name="Comando"
+                  name="comando"
                   labelId='select-label-comando'
                   value={filters.type}
                   label="Tipo"
@@ -87,6 +90,7 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
                 <Select
                   name="orden"
                   labelId='select-label-orden'
+                  defaultValue={filters.orden}
                   value={filters.orden}
                   onChange={handleChange}
                   margin='dense'
@@ -101,7 +105,8 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
         </Container>
       </CardContent>
       <CardActions>
-        <Button variant="contained" onClick={() => handleSearch()}>Search</Button>
+        <Button variant="contained" onClick={handleSearch}>Search</Button>
+        <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
       </CardActions>
     </Card >
   );

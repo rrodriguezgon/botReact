@@ -1,14 +1,14 @@
 import { useCallback, useState } from 'react';
 
-import { Container, Grid, Card, CardContent, CardActions, TextField, FormGroup, FormControlLabel, Checkbox, Button } from '@mui/material';
+import { Container, Grid, Card, CardContent, CardActions, TextField, FormGroup, FormControlLabel, MenuItem, Checkbox, Button, FormControl, Select, InputLabel } from '@mui/material';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import useStyles from "./index.css";
 
-export default function Filtros({ search }) {
-  const [filters, setFilters] = useState({});
+export default function Filtros({ search, estadoOptions }) {
+  const [filters, setFilters] = useState({nombre: null, estado: null, date: null, terminado: null});
 
   const classes = useStyles();
 
@@ -33,6 +33,9 @@ export default function Filtros({ search }) {
     }));
   }, []);
 
+  const handleClear = useCallback(() => {
+    setFilters({});
+  }, []);
 
   return (
     <Card>
@@ -48,6 +51,23 @@ export default function Filtros({ search }) {
                 margin="dense"
                 fullWidth
               />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="select-label-tipo">Estado</InputLabel>
+                <Select
+                  name="estado"
+                  labelId='select-label-estado'
+                  className={classes.boxMarginTop}
+                  value={filters.estado}
+                  label="Tipo"
+                  onChange={handleChange}
+                  margin='dense'
+                  fullWidth
+                >
+                  {estadoOptions.map(estado => <MenuItem value={estado}>{estado}</MenuItem>)}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={4}>
               <DatePicker
@@ -71,7 +91,8 @@ export default function Filtros({ search }) {
         </Container>
       </CardContent>
       <CardActions>
-        <Button variant="contained" onClick={() => handleSearch()}>Search</Button>
+        <Button variant="contained" onClick={handleSearch}>Search</Button>
+        <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
       </CardActions>
     </Card >
   );
