@@ -49,7 +49,7 @@ export default function Torneos() {
         },
         {
             name: 'cuadros',
-            selector: row => checkIconType(row.cuadros.length),
+            selector: row => checkIconType(row.cuadros.filter(cuadro => cuadro.url).length > 0),
             sortable: true,
         },
         {

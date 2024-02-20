@@ -140,15 +140,17 @@ export default function Detalles() {
                             />
                         </Grid>
                         <Grid item xs={8}>
-                            <TextField
-                                label="Link Torneo"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={infoTorneo.linkTorneo}
-                                margin="dense"
-                                fullWidth
-                            />
+                            <a href={infoTorneo.linkTorneo} target="_blank">
+                                <TextField
+                                    label="Link Torneo"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    value={infoTorneo.linkTorneo}
+                                    margin="dense"
+                                    fullWidth
+                                />
+                            </a>
                         </Grid>
                         {infoTorneo.cuadros.filter(cuadro => cuadro.url).length > 0 && (
                             <Grid item xs={12}>
@@ -164,7 +166,7 @@ export default function Detalles() {
                                         <a href={cuadro.url} target="_blank">
                                             <Button variant="contained">{cuadro.fase} - {cuadro.genero}</Button>
                                         </a>
-                                        
+
                                     </Grid>
                                 )
                             })}
