@@ -20,11 +20,11 @@ export default function Filtros({ search }) {
 
   const handleChange = useCallback((event) => {
     const target = event.target;
-    const { value, name, checked } = target;
+    const { value, name, className, checked } = target;
 
     setFilters((prevState) => ({
       ...prevState,
-      [name]: (typeof checked === "boolean" ? checked : value)
+      [name]: (className.includes('PrivateSwitchBase') ? checked : value)
     }));
   }, []);
 

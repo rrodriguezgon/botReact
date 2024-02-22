@@ -19,11 +19,11 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
 
   const handleChange = useCallback((event) => {
     const target = event.target;
-    const { value, name, checked } = target;
+    const { value, name, className, checked } = target;
 
     setFilters((prevState) => ({
       ...prevState,
-      [name]: ( typeof checked === "boolean" ? checked : value)
+      [name]: ( className.includes('PrivateSwitchBase') ? checked : value)
     }));
   }, []);
 
@@ -35,7 +35,7 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
   }, []);
 
   const handleClear = useCallback(() => {
-    setFilters({});
+    setFilters({nombre: ''});
   }, []);
 
   return (
