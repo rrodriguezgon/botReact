@@ -77,7 +77,7 @@ export default function Usuarios() {
                 setLoading(false);
 
                 setDataAlerta({
-                    variant: 'danger',
+                    variant: 'error',
                     texto: 'Error API'
                 });
 
@@ -100,7 +100,7 @@ export default function Usuarios() {
             getUsuarios(formFilter);
 
             setDataAlerta({
-                variant: 'sucess',
+                variant: 'success',
                 texto: 'Usuario Eliminado'
             });
 

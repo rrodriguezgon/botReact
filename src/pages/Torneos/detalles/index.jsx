@@ -1,20 +1,24 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+// Imports REACT
+import React, { useEffect, useState, useCallback } from "react";
 import {
     useParams,
     Link,
-    useNavigate
 } from "react-router-dom";
 
-import { getById, } from "../../../services/torneos";
+// Imports Material UI
+import { Container, Grid, Button, TextField, Typography } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
-import useStyles from "./index.css";
-
+// Imports Components Core
 import Loading from "../../../components/Loading";
 import Alerta from "../../../components/Alerta";
 
-import { Container, Grid, Button, TextField, Typography, Link as LinkMaterial } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
+// Imports Services
+import { getById } from "../../../services/torneos";
+
+import useStyles from "./index.css";
+
 
 export default function Detalles() {
     const [infoTorneo, setInfoTorneo] = useState();
@@ -33,7 +37,7 @@ export default function Detalles() {
             setInfoTorneo(result.data);
         }).catch(() => {
             setDataAlerta({
-                variant: 'danger',
+                variant: 'error',
                 texto: 'Error API'
             });
 

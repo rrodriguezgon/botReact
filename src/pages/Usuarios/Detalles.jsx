@@ -49,7 +49,7 @@ export default function UsuariosDetalles() {
             setNumEnlaces(result.data.numEnlaces);
         }).catch(() => {
             setDataAlerta({
-                variant: 'danger',
+                variant: 'error',
                 texto: 'Error API'
             });
 
@@ -106,7 +106,7 @@ export default function UsuariosDetalles() {
 
         }).catch(() => {
             setDataAlerta({
-                variant: 'danger',
+                variant: 'error',
                 texto: 'Error API'
             });
 

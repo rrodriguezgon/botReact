@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function ModalComponent({
     showModal,
@@ -15,33 +17,39 @@ export default function ModalComponent({
     buttonCancelFN,
 }) {
     return (
-        <>
-            <Modal show={showModal} onHide={() => closeModal()} size='lg'>
-                {titleHeader !== '' &&
-                    <Modal.Header closeButton>
-                        <Modal.Title>{titleHeader}</Modal.Title>
-                    </Modal.Header>
+        <Dialog
+            onClose={closeModal}
+            aria-labelledby="customized-dialog-title"
+            open={showModal}
+        >
+            <DialogTitle>{titleHeader}</DialogTitle>
+            <IconButton
+                aria-label="close"
+                onClick={closeModal}
+                sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+            <DialogContent dividers>
+                {textContent}
+            </DialogContent>
+            <DialogActions>
+                {buttonCancelFN &&
+                    <Button onClick={() => buttonCancelFN()}>
+                        Cancelar
+                    </Button>
                 }
-                <Modal.Body>
-                    <Container>
-                        <Row><Col xs={12}>{textContent}</Col></Row>                        
-                    </Container>
-                </Modal.Body>
-                {(buttonAcceptFN || buttonCancelFN) &&
-                    <Modal.Footer>
-                        {buttonCancelFN &&
-                            <Button variant="secondary" onClick={() => buttonCancelFN()}>
-                                Cancelar
-                            </Button>
-                        }
-                        {buttonAcceptFN &&
-                            <Button variant="primary" onClick={() => buttonAcceptFN()}>
-                                Aceptar
-                            </Button>
-                        }
-                    </Modal.Footer>
+                {buttonAcceptFN &&
+                    <Button onClick={() => buttonAcceptFN()}>
+                        Aceptar
+                    </Button>
                 }
-            </Modal>
-        </>
+            </DialogActions>
+        </Dialog>
     );
 }

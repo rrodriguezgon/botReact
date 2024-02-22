@@ -1,22 +1,27 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+// Imports REACT
+import React, { useEffect, useState, useCallback } from "react";
+import moment from 'moment';
 
-//import Filtro from '../filtros';
+// Imports Material UI
+import { Container, Grid } from '@mui/material';
+import { CheckCircle, Cancel } from '@mui/icons-material';
 
+// Imports Components Core
 import Listado from '../../../components/Listado';
 import Loading from "../../../components/Loading";
 import Alerta from "../../../components/Alerta";
 import ButtonDetalles from "../../../components/ButtonDetalles";
 
-import moment from 'moment';
-import { Container, Grid } from '@mui/material';
+// Imports Components Page
+import Filtro from '../filtros';
 
-import { CheckCircle, Cancel } from '@mui/icons-material';
+// Imports Services
+import { getAll, getAllWithFilters } from '../../../services/comandos';
 
 import useStyles from "./index.css";
 
-import { getAll, getAllWithFilters } from '../../../services/torneos';
 
-export default function Torneos() {
+export default function ComandosBot() {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
@@ -24,33 +29,24 @@ export default function Torneos() {
     const classes = useStyles();
 
     function checkIconType(field) { return (field ? <CheckCircle className={classes.checkTrue} /> : <Cancel className={classes.checkFalse} />) }
-    function buttonDetails(field) { return <ButtonDetalles enlace={`/torneos/${field}`} /> }
+    function buttonDetails(field) { return <ButtonDetalles enlace={`/comandosBot/${field}`} /> }
 
     const columns = [
         {
-            name: 'Torneo',
+            name: 'Comando',
             selector: row => row.nombre,
-            sortable: true,
         },
         {
-            name: 'Fecha Inicio',
-            selector: row => (row.fechaInicioDate ? moment(row.fechaInicioDate).format('DD/MM/YYYY') : ''),
-            sortable: true,
+            name: 'Tipo',
+            selector: row => row.tipo,
         },
         {
-            name: 'Fecha Fin',
-            selector: row => (row.fechaFinDate ? moment(row.fechaFinDate).format('DD/MM/YYYY') : ''),
-            sortable: true,
+            name: 'Fecha Ejecución',
+            selector: row => (row.ultimaFechaEjecucion ? moment(row.ultimaFechaEjecucion).format('DD/MM/YYYY hh:mm') : ''),
         },
         {
-            name: 'estado',
-            selector: row => row.estado,
-            sortable: true,
-        },
-        {
-            name: 'cuadros',
-            selector: row => checkIconType(row.cuadros.filter(cuadro => cuadro.url).length > 0),
-            sortable: true,
+            name: 'Lanzado',
+            selector: row => checkIconType(row.lanzado),
         },
         {
             name: '',
@@ -59,7 +55,7 @@ export default function Torneos() {
         },
     ];
 
-    function getTorneos(filters) {
+    function getComandos(filters) {
         setLoading(true);
         (Object.keys(filters || {}).length ? getAllWithFilters(filters) : getAll())
             .then((({ data }) => {
@@ -79,7 +75,7 @@ export default function Torneos() {
                 setLoading(false);
 
                 setDataAlerta({
-                    variant: 'danger',
+                    variant: 'error',
                     texto: 'Error API'
                 });
 
@@ -88,23 +84,23 @@ export default function Torneos() {
     }
 
     useEffect(() => {
-        getTorneos();
+        getComandos();
     }, []);
 
     const handleSearch = useCallback((filters) => {
-        getTorneos(filters);
+        getComandos(filters);
     }, []);
 
     const closeAlerta = useCallback(() => {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
-    const estadoOptions = useMemo(() => (list.length ? [...(new Set(list.filter(torneo => torneo.estado).map(torneo => torneo.estado)))] : []), [list]);
-    const typesOptions = useMemo(() => (list.length ? [...(new Set(list.filter(torneo => torneo.tipo).map(torneo => torneo.tipo)))] : []), [list]);
-
     return (
         <Container>
             <Grid container spacing={2} xs={12}>
+                <Grid item className={classes.boxSearch} xs={12}>
+                    <Filtro search={handleSearch} />
+                </Grid>
                 <Grid item xs={12}>
                     {showAlerta &&
                         <Alerta dataAlerta={dataAlerta}

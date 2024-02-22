@@ -1,33 +1,37 @@
+// Imports REACT
 import React, { useEffect, useState, useCallback, useMemo } from "react";
+import moment from 'moment';
 
-import Filtro from '../filtros';
+// Imports Material UI
+import { Container, Grid, TextField, Button } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
 
+// Imports Components Core
 import Listado from '../../../components/Listado';
 import Loading from "../../../components/Loading";
 import Alerta from "../../../components/Alerta";
 import ModalComponent from "../../../components/Modal";
 
-import { Container, Grid, TextField, Button } from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs from 'dayjs';
-import moment from 'moment';
+// Imports Components Page
+import Filtro from '../filtros';
 
+// Imports Services
 import { getAll, getAllWithFilters } from '../../../services/logs';
 
 import useStyles from "./index.css";
 
 
-const Logs = () => {
+export default function Logs(){
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [dataAlerta, setDataAlerta] = useState({});
     const [detail, setDetail] = useState({});
-    const [filters, setFilters] = useState({});
     const classes = useStyles();
 
-    function buttonDetails(row) { return <Button variant="contained" onClick={() => handleOpenModal(row)}>Detalles</Button> }
+    function buttonDetails(row) { return <Button size="small" variant="contained" onClick={() => handleOpenModal(row)}>Detalles</Button> }
     const columns = [
         {
             name: 'Tipo',
@@ -74,7 +78,7 @@ const Logs = () => {
                 setLoading(false);
 
                 setDataAlerta({
-                    variant: 'danger',
+                    variant: 'error',
                     texto: 'Error API'
                 });
 
@@ -91,7 +95,6 @@ const Logs = () => {
     }, [setShowAlerta]);
 
     const handleSearch = useCallback((filters) => {
-        setFilters(filters);
         getLogs(filters);
     }, []);
 
@@ -119,7 +122,7 @@ const Logs = () => {
                 <Grid item>
                     <ModalComponent
                         showModal={showModal}
-                        titleHeader="Estas Seguro?"
+                        titleHeader="Detalles Log"
                         textContent={<Details row={detail} classes={classes} />}
                         closeModal={handleCloseModal} />
                 </Grid>
@@ -171,5 +174,3 @@ const Details = ({ row, classes }) => {
         </Grid>
     </Container>;
 };
-
-export default Logs;

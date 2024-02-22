@@ -1,10 +1,13 @@
+// Imports REACT
 import { useCallback, useState } from 'react';
 
+// Imports Material UI
+import { Container, Grid, Card, CardContent, CardActions, Select, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import useStyles from "./index.css";
-import { Container, Grid, Card, CardContent, CardActions, Select, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
+
 
 export default function Filtros({ search, comandosOptions, typesOptions }) {
   const [filters, setFilters] = useState({comando: null, tipo: null, orden: null, date: null});

@@ -1,20 +1,25 @@
+// Imports REACT
 import React, { useEffect, useState, useCallback, useMemo } from "react";
+import moment from 'moment';
 
-import Filtro from '../filtros';
+// Imports Material UI
+import { Container, Grid } from '@mui/material';
+import { CheckCircle, Cancel } from '@mui/icons-material';
 
+// Imports Components Core
 import Listado from '../../../components/Listado';
 import Loading from "../../../components/Loading";
 import Alerta from "../../../components/Alerta";
 import ButtonDetalles from "../../../components/ButtonDetalles";
 
-import moment from 'moment';
-import { Container, Grid } from '@mui/material';
+// Imports Components Page
+import Filtro from '../filtros';
 
-import { CheckCircle, Cancel } from '@mui/icons-material';
+// Imports Services
+import { getAll, getAllWithFilters } from '../../../services/torneos';
 
 import useStyles from "./index.css";
 
-import { getAll, getAllWithFilters } from '../../../services/torneos';
 
 export default function Torneos() {
     const [list, setList] = useState([]);
@@ -79,7 +84,7 @@ export default function Torneos() {
                 setLoading(false);
 
                 setDataAlerta({
-                    variant: 'danger',
+                    variant: 'error',
                     texto: 'Error API'
                 });
 

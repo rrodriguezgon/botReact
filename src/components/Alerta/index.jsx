@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+
+import { Alert, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export default function Alerta({ dataAlerta, closeAlerta }) {
   const handleClick = useCallback(() => {
@@ -8,13 +10,20 @@ export default function Alerta({ dataAlerta, closeAlerta }) {
   }, [closeAlerta]);
 
   return (
-    <Alert data-testid="alerta" variant={dataAlerta.variant}>
-      {dataAlerta.texto}
-      <div className="d-flex justify-content-end">
-        <Button data-testid="alertaButtonClose" onClick={handleClick} variant={dataAlerta.variant}>
-          X
-        </Button>
-      </div>
+    <Alert
+      severity={dataAlerta.variant}
+      action={
+        <IconButton
+          aria-label="close"
+          color="inherit"
+          size="small"
+          onClick={handleClick}
+        >
+          <CloseIcon fontSize="inherit" />
+        </IconButton>
+      }
+      sx={{ mb: 2 }}
+    >{dataAlerta.texto}
     </Alert>
   );
 }
