@@ -14,6 +14,7 @@ export default function NavbarComponent() {
             <Nav.Link href="/logs">LOGS</Nav.Link>
             <Nav.Link href="/torneos">TORNEOS</Nav.Link>
             <Nav.Link href="/usuarios">USUARIOS</Nav.Link>
+            <Nav.Link href="/comandosBot">COMANDOS</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 
-import Filtro from '../filtros';
+//import Filtro from '../filtros';
 
 import Listado from '../../../components/Listado';
 import Loading from "../../../components/Loading";
@@ -105,9 +105,6 @@ export default function Torneos() {
     return (
         <Container>
             <Grid container spacing={2} xs={12}>
-                <Grid item className={classes.boxSearch} xs={12}>
-                    <Filtro search={handleSearch} estadoOptions={estadoOptions} typesOptions={typesOptions} />
-                </Grid>
                 <Grid item xs={12}>
                     {showAlerta &&
                         <Alerta dataAlerta={dataAlerta}
