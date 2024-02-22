@@ -22,7 +22,7 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
 
     setFilters((prevState) => ({
       ...prevState,
-      [name]: (typeof checked === Boolean ? checked : value)
+      [name]: ( typeof checked === "boolean" ? checked : value)
     }));
   }, []);
 
