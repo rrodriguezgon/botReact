@@ -102,7 +102,7 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
             </Grid>
             <Grid item xs={4}>
               <FormGroup>
-                <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="terminado" value={filters.terminado} onChange={handleChange} />} label="terminados" />
+                <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="terminado" checked={filters.terminado} onChange={handleChange} />} label="terminados" />
               </FormGroup>
             </Grid>
           </Grid>

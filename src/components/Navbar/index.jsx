@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem, Link } from '@mui/material'; 
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,6 +13,15 @@ const pages = [
 ];
 
 export default function NavbarComponent() {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   return (
     <AppBar position="static">
@@ -43,6 +53,7 @@ export default function NavbarComponent() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               color="inherit"
+              onClick={handleOpenNavMenu}
             >
               <MenuIcon />
             </IconButton>
@@ -57,12 +68,14 @@ export default function NavbarComponent() {
                 vertical: 'top',
                 horizontal: 'left',
               }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
             >
               {pages.map(({titulo, url}) => (
-                <MenuItem key={titulo} component={Link} href={url}>
+                <MenuItem key={titulo} component={Link} href={url} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{titulo}</Typography>
                 </MenuItem>
               ))}

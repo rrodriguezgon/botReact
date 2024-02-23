@@ -7,6 +7,12 @@ const useStyles = createUseStyles({
     boxMarginTop: {
         marginTop: '8px',
     },
+    checkTrue: {
+        color: 'green',        
+    },
+    checkFalse: {
+        color: 'red',
+    }
 });
 
 export default useStyles;

@@ -68,7 +68,7 @@ export default function Detalles() {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                             <TextField
                                 label="Comando"
                                 InputProps={{
@@ -90,7 +90,7 @@ export default function Detalles() {
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={8}>
                             <TextField
                                 label="Tipo"
                                 InputProps={{
@@ -101,7 +101,7 @@ export default function Detalles() {
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <DatePicker
                                 name="date"
                                 fullWidth
@@ -111,7 +111,7 @@ export default function Detalles() {
                                 value={dayjs(infoTorneo.fechaInicioDate)}
                                 readOnly />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <DatePicker
                                 name="date"
                                 fullWidth
@@ -121,7 +121,7 @@ export default function Detalles() {
                                 value={dayjs(infoTorneo.fechaFinDate)}
                                 readOnly />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 label="Estado"
                                 InputProps={{
@@ -132,7 +132,7 @@ export default function Detalles() {
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 label="Localización"
                                 InputProps={{
@@ -143,7 +143,7 @@ export default function Detalles() {
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={12}>
                             <a href={infoTorneo.linkTorneo} target="_blank">
                                 <TextField
                                     label="Link Torneo"
@@ -163,10 +163,10 @@ export default function Detalles() {
                                 </Typography>
                             </Grid>
                         )}
-                        <Grid container xs={12}>
+                        <Grid container spacing={2}>
                             {infoTorneo.cuadros.filter(cuadro => cuadro.url).map(cuadro => {
                                 return (
-                                    <Grid className={classes.boxMarginBotTop} item xs={4} key={cuadro._id}>
+                                    <Grid className={classes.boxMarginBotTop} item xs={6} key={cuadro._id}>
                                         <a href={cuadro.url} target="_blank">
                                             <Button variant="contained">{cuadro.fase} - {cuadro.genero}</Button>
                                         </a>
@@ -182,10 +182,10 @@ export default function Detalles() {
                                 </Typography>
                             </Grid>
                         )}
-                        <Grid container xs={12}>
+                        <Grid container spacing={2}>
                             {infoTorneo.horarios.filter(horario => horario.url).map(horario => {
                                 return (
-                                    <Grid className={classes.boxMarginBotTop} item xs={4} key={horario._id}>
+                                    <Grid className={classes.boxMarginBotTop} item xs={6} key={horario._id}>
                                         <a href={horario.url} target="_blank">
                                             <Button variant="contained">{horario.dia}</Button>
                                         </a>

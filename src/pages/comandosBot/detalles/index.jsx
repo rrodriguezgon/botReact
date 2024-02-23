@@ -6,8 +6,9 @@ import {
 } from "react-router-dom";
 
 // Imports Material UI
-import { Container, Grid, Button, TextField, Typography } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Container, Grid, Button, TextField, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { CheckCircle, Cancel } from '@mui/icons-material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 
 // Imports Components Core
@@ -68,7 +69,7 @@ export default function Detalles() {
                                 </Link>
                             </Grid>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 label="Comando"
                                 InputProps={{
@@ -78,6 +79,53 @@ export default function Detalles() {
                                 margin="dense"
                                 fullWidth
                             />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                label="Tipo"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                value={infoComando.tipo}
+                                margin="dense"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <DateTimePicker fullWidth className={classes.boxMarginTop} label="Fecha" format="DD-MM-YYYY hh:mm" value={dayjs(infoComando.ultimaFechaEjecucion)} margin="dense" readOnly />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                label="Intervalo"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                value={infoComando.intervalo}
+                                margin="dense"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Parametros"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                value={infoComando.parametros}
+                                margin="dense"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <FormGroup>
+                                <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="lanzado" checked={infoComando.lanzado} disabled />} label="Lanzado" />
+                            </FormGroup>
+                        </Grid>                     
+                        
+                        <Grid item xs={6}>
+                            <FormGroup>
+                                <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="activo" checked={infoComando.activo} />} label="Activo" />
+                            </FormGroup>
                         </Grid>
                     </Grid>
                 )}
