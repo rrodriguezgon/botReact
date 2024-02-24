@@ -1,10 +1,9 @@
 // Imports REACT
 import { useCallback, useState } from 'react';
+import { Link } from "react-router-dom";
 
 // Imports Material UI
 import { Container, Grid, Card, CardContent, CardActions, TextField, FormControl, InputLabel, Select, Button, MenuItem } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 
 import useStyles from "./index.css";
 
@@ -20,7 +19,7 @@ export default function Filtros({ search }) {
 
   const handleChange = useCallback((event) => {
     const target = event.target;
-    const { value, name} = target;
+    const { value, name } = target;
 
     setFilters((prevState) => ({
       ...prevState,
@@ -72,6 +71,9 @@ export default function Filtros({ search }) {
       <CardActions>
         <Button variant="contained" onClick={handleSearch}>Search</Button>
         <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
+        <Link to='/comandosBot/nuevo'>
+          <Button variant="contained" color="success">Nuevo</Button>
+        </Link>
       </CardActions>
     </Card >
   );

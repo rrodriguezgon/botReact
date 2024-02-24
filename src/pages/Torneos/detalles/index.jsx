@@ -21,7 +21,7 @@ import useStyles from "./index.css";
 
 
 export default function Detalles() {
-    const [infoTorneo, setInfoTorneo] = useState();
+    const [infoTorneo, setInfoTorneo] = useState({});
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
     const [dataAlerta, setDataAlerta] = useState();
@@ -151,6 +151,19 @@ export default function Detalles() {
                                         readOnly: true,
                                     }}
                                     value={infoTorneo.linkTorneo}
+                                    margin="dense"
+                                    fullWidth
+                                />
+                            </a>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <a href={infoTorneo.linkMarcador} target="_blank">
+                                <TextField
+                                    label="Link Marcador"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    value={infoTorneo.linkMarcador}
                                     margin="dense"
                                     fullWidth
                                 />

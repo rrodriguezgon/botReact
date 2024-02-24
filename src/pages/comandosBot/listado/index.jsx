@@ -41,12 +41,20 @@ export default function ComandosBot() {
             selector: row => row.tipo,
         },
         {
-            name: 'Fecha Ejecución',
-            selector: row => (row.ultimaFechaEjecucion ? moment(row.ultimaFechaEjecucion).format('DD/MM/YYYY hh:mm') : ''),
+            name: 'Fecha Ultima Ejecución',
+            selector: row => (row.ultimaFechaEjecucion ? moment(row.ultimaFechaEjecucion).format('DD/MM/YYYY HH:mm') : ''),
+        },
+        {
+            name: 'Hora Ejecución',
+            selector: row => (row.horaEjecucion ? moment(row.horaEjecucion).format('HH:mm') : ''),
         },
         {
             name: 'Lanzado',
             selector: row => checkIconType(row.lanzado),
+        },
+        {
+            name: 'Activo',
+            selector: row => checkIconType(row.activo),
         },
         {
             name: '',

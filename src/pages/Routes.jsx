@@ -26,6 +26,7 @@ export default function RoutesComponent() {
                 <Route path="/usuarios/:id" element={<UsuariosDetalles />} />
                 <Route path="/comandosBot" element={<ComandosBot />} />
                 <Route path="/comandosBot/:id" element={<ComandosBotDetalles />} />
+                <Route path="/comandosBot/nuevo" element={<ComandosBotDetalles />} />
             </Routes>
         </BrowserRouter>
     )
