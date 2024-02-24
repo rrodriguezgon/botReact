@@ -73,7 +73,7 @@ export default function ComandosBot() {
                 if (data.length === 0) {
                     setDataAlerta({
                         variant: 'info',
-                        texto: 'no hay datos'
+                        texto: 'no hay datos.'
                     });
 
                     setShowAlerta(true);
@@ -84,7 +84,7 @@ export default function ComandosBot() {
 
                 setDataAlerta({
                     variant: 'error',
-                    texto: 'Error API'
+                    texto: 'Error API.'
                 });
 
                 setShowAlerta(true);
