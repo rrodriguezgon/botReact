@@ -53,7 +53,7 @@ export default function Detalles() {
             setInfoComando(result.data);
         }).catch(() => {
             setDataAlerta({
-                variant: 'error',
+                variant: 'error.',
                 texto: 'Error API'
             });
 
