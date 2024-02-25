@@ -66,6 +66,7 @@ export default function Detalles() {
     }, [modoEditar]);
 
     const handleGuardar = useCallback(() => {
+        infoComando.lanzado = false;
         (id ? updateById(id, infoComando) : create(infoComando))
             .then(result => console.log(result), navigate("/comandos"))
             .catch(ex => console.log(ex));
