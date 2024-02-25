@@ -21,7 +21,7 @@ import { getAll, getAllWithFilters } from '../../../services/comandos';
 import useStyles from "./index.css";
 
 
-export default function ComandosBot() {
+export default function Comandos() {
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
@@ -29,7 +29,7 @@ export default function ComandosBot() {
     const classes = useStyles();
 
     function checkIconType(field) { return (field ? <CheckCircle className={classes.checkTrue} /> : <Cancel className={classes.checkFalse} />) }
-    function buttonDetails(field) { return <ButtonDetalles enlace={`/comandosBot/${field}`} /> }
+    function buttonDetails(field) { return <ButtonDetalles enlace={`/comandos/${field}`} /> }
 
     const columns = [
         {

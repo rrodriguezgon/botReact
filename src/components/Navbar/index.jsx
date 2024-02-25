@@ -9,7 +9,7 @@ const pages = [
   { titulo: 'LOGS', url: '/logs' }, 
   { titulo: 'TORNEOS', url: '/torneos' },
   { titulo: 'USUARIOS', url: '/usuarios' },
-  { titulo: 'COMANDOS', url: '/comandosBot' },
+  { titulo: 'COMANDOS', url: '/comandos' },
 ];
 
 export default function NavbarComponent() {

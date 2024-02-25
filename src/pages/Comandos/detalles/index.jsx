@@ -67,7 +67,7 @@ export default function Detalles() {
 
     const handleGuardar = useCallback(() => {
         (id ? updateById(id, infoComando) : create(infoComando))
-            .then(result => console.log(result), navigate("/comandosBot"))
+            .then(result => console.log(result), navigate("/comandos"))
             .catch(ex => console.log(ex));
     }, [id, infoComando]);
 
@@ -117,7 +117,7 @@ export default function Detalles() {
                     <Grid container className={classes.boxMarginTop}>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
-                                <Link to='/comandosBot'>
+                                <Link to='/comandos'>
                                     <Button variant="contained">Volver</Button>
                                 </Link>
                             </Grid>

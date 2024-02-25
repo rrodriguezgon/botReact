@@ -71,7 +71,7 @@ export default function Filtros({ search }) {
       <CardActions>
         <Button variant="contained" onClick={handleSearch}>Search</Button>
         <Button variant="contained" color="secondary" onClick={handleClear}>Clear</Button>
-        <Link to='/comandosBot/nuevo'>
+        <Link to='/comandos/nuevo'>
           <Button variant="contained" color="success">Nuevo</Button>
         </Link>
       </CardActions>
