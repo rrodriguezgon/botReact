@@ -45,7 +45,7 @@ export default function Logs(){
         },
         {
             name: 'Fecha',
-            selector: row => moment(row.date).format('DD/MM/YYYY hh:mm'),
+            selector: row => moment(row.date).format('DD/MM/YYYY HH:mm'),
             sortable: true,
         },
         {
