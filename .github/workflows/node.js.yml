@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,5 +26,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+    - run: npm install
+    - run: CI=false npm run build
+    - name: Copy folder content recursively to remote
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: build
+        remote: /home/ubuntu/bot-marcador-react/build
+        host: 217.182.129.103
+        port: 4568
+        username: ubuntu
+        password: 9bPEfwDX9gkG
+
