@@ -28,3 +28,12 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: CI=false npm run build
+    - name: Copy folder content recursively to remote
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: build
+        remote: /opt/prueba
+        host: 217.182.129.103:4568
+        username: ubuntu
+        password: 9bPEfwDX9gkG
+
