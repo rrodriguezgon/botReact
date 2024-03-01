@@ -32,7 +32,7 @@ jobs:
       uses: garygrossgarten/github-action-scp@release
       with:
         local: build
-        remote: /opt/prueba
+        remote: /home/ubuntu/bot-marcador-react/build
         host: 217.182.129.103
         port: 4568
         username: ubuntu
