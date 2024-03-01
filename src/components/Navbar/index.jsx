@@ -8,7 +8,6 @@ const pages = [
   { titulo: 'INICIO', url: '/' }, 
   { titulo: 'LOGS', url: '/logs' }, 
   { titulo: 'TORNEOS', url: '/torneos' },
-  { titulo: 'USUARIOS', url: '/usuarios' },
   { titulo: 'COMANDOS', url: '/comandos' },
 ];
 
