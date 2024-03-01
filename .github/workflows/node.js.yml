@@ -33,7 +33,8 @@ jobs:
       with:
         local: build
         remote: /opt/prueba
-        host: 217.182.129.103:4568
+        host: 217.182.129.103
+        port: 4568
         username: ubuntu
         password: 9bPEfwDX9gkG
 
