@@ -3,10 +3,20 @@ import React, { useEffect, useState, useCallback } from "react";
 import {
     useParams,
     Link,
+    useNavigate,
 } from "react-router-dom";
 
 // Imports Material UI
-import { Container, Grid, Button, TextField, Typography } from '@mui/material';
+import { 
+    Container, 
+    Grid, 
+    Button, 
+    TextField, 
+    Typography,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
+} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
@@ -15,7 +25,7 @@ import Loading from "../../../components/Loading";
 import Alerta from "../../../components/Alerta";
 
 // Imports Services
-import { getById } from "../../../services/torneos";
+import { getById, updateById } from "../../../services/torneos";
 
 import useStyles from "./index.css";
 
@@ -24,11 +34,13 @@ export default function Detalles() {
     const [infoTorneo, setInfoTorneo] = useState({});
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
-    const [dataAlerta, setDataAlerta] = useState();
+    const [dataAlerta, setDataAlerta] = useState();    
+    const [modoEditar, setModoEditar] = useState(false);
 
     const classes = useStyles();
 
-    let { id } = useParams();
+    const { id } = useParams();
+    const navigate = useNavigate();
 
     function getTorneo(id) {
         setLoading(true);
@@ -53,6 +65,27 @@ export default function Detalles() {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
+    const handleChangeMod = useCallback(() => {
+        setModoEditar(!modoEditar);
+    }, [modoEditar]);
+
+    const handleGuardar = useCallback(() => {
+        console.log(infoTorneo);
+        updateById(id, infoTorneo)
+            .then(() => navigate("/torneos"))
+            .catch(ex => console.log(ex));
+    }, [id, infoTorneo]);
+
+    const handleChange = useCallback((event) => {
+        const target = event.target;
+        const { value, name, className, checked } = target;
+
+        setInfoTorneo((prevState) => ({
+            ...prevState,
+            [name]: (className?.includes('PrivateSwitchBase') ? checked : value)
+        }));
+    }, []);
+
     return (
         <Container>
             <Grid item xs={12}>
@@ -60,12 +93,19 @@ export default function Detalles() {
                     <Alerta dataAlerta={dataAlerta}
                         closeAlerta={closeAlerta} />}
                 {loading ? <Loading /> : (
-                    <Grid container spacing={2}>
-                        <Grid className={classes.boxMarginBotTop} item xs={12}>
+                    <Grid className={classes.boxMarginBotTop} container spacing={2}>
+                        <Grid container xs={12}>
                             <Grid item xs={4}>
                                 <Link to='/torneos'>
                                     <Button variant="contained">Volver</Button>
                                 </Link>
+                            </Grid>
+                            <Grid item xs={4}>
+                                {!modoEditar ? (
+                                    <Button variant="contained" onClick={handleChangeMod}>Editar</Button>
+                                ) : (
+                                    <Button variant="contained" onClick={handleGuardar}>Guardar</Button>
+                                )}
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
@@ -144,7 +184,7 @@ export default function Detalles() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <a href={infoTorneo.linkTorneo} target="_blank">
+                            <a href={infoTorneo.linkTorneo} rel="noreferrer" target="_blank">
                                 <TextField
                                     label="Link Torneo"
                                     InputProps={{
@@ -157,7 +197,7 @@ export default function Detalles() {
                             </a>
                         </Grid>
                         <Grid item xs={12}>
-                            <a href={infoTorneo.linkMarcador} target="_blank">
+                            <a href={infoTorneo.linkMarcador} rel="noreferrer" target="_blank">
                                 <TextField
                                     label="Link Marcador"
                                     InputProps={{
@@ -168,6 +208,11 @@ export default function Detalles() {
                                     fullWidth
                                 />
                             </a>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <FormGroup>
+                                <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="desactivarMarcador" checked={infoTorneo?.desactivarMarcador} disabled={!modoEditar} onChange={handleChange} />} label="Desactivar Marcador" />
+                            </FormGroup>
                         </Grid>
                         {infoTorneo.cuadros.filter(cuadro => cuadro.url).length > 0 && (
                             <Grid item xs={12}>
@@ -180,7 +225,7 @@ export default function Detalles() {
                             {infoTorneo.cuadros.filter(cuadro => cuadro.url).map(cuadro => {
                                 return (
                                     <Grid className={classes.boxMarginBotTop} item xs={6} key={cuadro._id}>
-                                        <a href={cuadro.url} target="_blank">
+                                        <a href={cuadro.url} rel="noreferrer" target="_blank">
                                             <Button variant="contained">{cuadro.fase} - {cuadro.genero}</Button>
                                         </a>
 
@@ -199,7 +244,7 @@ export default function Detalles() {
                             {infoTorneo.horarios.filter(horario => horario.url).map(horario => {
                                 return (
                                     <Grid className={classes.boxMarginBotTop} item xs={6} key={horario._id}>
-                                        <a href={horario.url} target="_blank">
+                                        <a href={horario.url} rel="noreferrer" target="_blank">
                                             <Button variant="contained">{horario.dia}</Button>
                                         </a>
                                     </Grid>

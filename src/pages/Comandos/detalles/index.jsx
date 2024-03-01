@@ -44,7 +44,7 @@ export default function Detalles() {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    let { id } = useParams();
+    const { id } = useParams();
 
     function getComando(id) {
         setLoading(true);
