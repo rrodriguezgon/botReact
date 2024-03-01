@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseURL = "http://217.182.129.103:4000/api/v1/torneos";
-const baseURL = "http://localhost:4000/api/v1/torneos";
+const baseURL = "http://217.182.129.103:4000/api/v1/torneos";
+// const baseURL = "http://localhost:4000/api/v1/torneos";
 
 axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.getItem("token")}`}
 
