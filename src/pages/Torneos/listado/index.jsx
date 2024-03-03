@@ -1,6 +1,7 @@
 // Imports REACT
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import moment from 'moment';
+import { useNavigate } from "react-router-dom";
 
 // Imports Material UI
 import { Container, Grid } from '@mui/material';
@@ -27,6 +28,7 @@ export default function Torneos() {
     const [showAlerta, setShowAlerta] = useState(false);
     const [dataAlerta, setDataAlerta] = useState({});
     const classes = useStyles();
+    const navigate = useNavigate();
 
     function checkIconType(field) { return (field ? <CheckCircle className={classes.checkTrue} /> : <Cancel className={classes.checkFalse} />) }
     function buttonDetails(field) { return <ButtonDetalles enlace={`/torneos/${field}`} /> }
@@ -68,7 +70,6 @@ export default function Torneos() {
         setLoading(true);
         (Object.keys(filters || {}).length ? getAllWithFilters(filters) : getAll())
             .then((({ data }) => {
-                setLoading(false);
                 setList(data);
 
                 if (data.length === 0) {
@@ -80,16 +81,18 @@ export default function Torneos() {
                     setShowAlerta(true);
                 }
             }))
-            .catch(() => {
-                setLoading(false);
+            .catch((error) => {
+                if (error?.response && error.response.status === 403){
+                    navigate("/login");
+                }
 
                 setDataAlerta({
                     variant: 'error',
-                    texto: 'Error API'
+                    texto: `Error API: ${error.message}`
                 });
 
                 setShowAlerta(true);
-            });
+            }).finally(() => setLoading(false));
     }
 
     useEffect(() => {

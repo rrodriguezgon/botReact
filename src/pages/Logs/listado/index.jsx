@@ -1,6 +1,7 @@
 // Imports REACT
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import moment from 'moment';
+import { useNavigate } from "react-router-dom";
 
 // Imports Material UI
 import { Container, Grid, TextField, Button } from '@mui/material';
@@ -30,6 +31,7 @@ export default function Logs(){
     const [dataAlerta, setDataAlerta] = useState({});
     const [detail, setDetail] = useState({});
     const classes = useStyles();
+    const navigate = useNavigate();
 
     function buttonDetails(row) { return <Button size="small" variant="contained" onClick={() => handleOpenModal(row)}>Detalles</Button> }
     const columns = [
@@ -45,7 +47,7 @@ export default function Logs(){
         },
         {
             name: 'Fecha',
-            selector: row => moment(row.date).format('DD/MM/YYYY HH:mm'),
+            selector: row => moment(row.date).format('DD/MM - HH:mm'),
             sortable: true,
         },
         {
@@ -62,7 +64,6 @@ export default function Logs(){
         setLoading(true);
         (Object.keys(filters || {}).length ? getAllWithFilters(filters) : getAll())
             .then((({ data }) => {
-                setLoading(false);
                 setList(data);
 
                 if (data.length === 0) {
@@ -74,16 +75,18 @@ export default function Logs(){
                     setShowAlerta(true);
                 }
             }))
-            .catch(() => {
-                setLoading(false);
+            .catch((error) => {
+                if (error?.response && error.response.status === 403){
+                    navigate("/login");
+                }
 
                 setDataAlerta({
                     variant: 'error',
-                    texto: 'Error API'
+                    texto: `Error API: ${error.message}`
                 });
 
                 setShowAlerta(true);
-            });
+            }).finally(() => setLoading(false));
     }
 
     useEffect(() => {

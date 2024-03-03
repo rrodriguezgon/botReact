@@ -48,13 +48,17 @@ export default function Detalles() {
 
     function getComando(id) {
         setLoading(true);
-        getById(id).then((result) => {
-            setLoading(false);
+        getById(id)
+        .then((result) => {
             setInfoComando(result.data);
-        }).catch(() => {
+        }).catch((error) => {
+            if (error?.response && error.response.status === 403){
+                navigate("/login");
+            }
+
             setDataAlerta({
-                variant: 'error.',
-                texto: 'Error API'
+                variant: 'error',
+                texto: `Error API: ${error.message}`
             });
 
             setShowAlerta(true);
@@ -68,8 +72,19 @@ export default function Detalles() {
     const handleGuardar = useCallback(() => {
         infoComando.lanzado = false;
         (id ? updateById(id, infoComando) : create(infoComando))
-            .then(result => console.log(result), navigate("/comandos"))
-            .catch(ex => console.log(ex));
+            .then(() => navigate("/comandos"))
+            .catch((error) => {
+                if (error?.response && error.response.status === 403){
+                    navigate("/login");
+                }
+
+                setDataAlerta({
+                    variant: 'error',
+                    texto: `Error API: ${error.message}`
+                });
+
+                setShowAlerta(true);
+            });
     }, [id, infoComando]);
 
     const handleChange = useCallback((event) => {

@@ -7,11 +7,11 @@ import {
 } from "react-router-dom";
 
 // Imports Material UI
-import { 
-    Container, 
-    Grid, 
-    Button, 
-    TextField, 
+import {
+    Container,
+    Grid,
+    Button,
+    TextField,
     Typography,
     FormGroup,
     FormControlLabel,
@@ -34,7 +34,7 @@ export default function Detalles() {
     const [infoTorneo, setInfoTorneo] = useState({});
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
-    const [dataAlerta, setDataAlerta] = useState();    
+    const [dataAlerta, setDataAlerta] = useState();
     const [modoEditar, setModoEditar] = useState(false);
 
     const classes = useStyles();
@@ -45,12 +45,15 @@ export default function Detalles() {
     function getTorneo(id) {
         setLoading(true);
         getById(id).then((result) => {
-            setLoading(false);
             setInfoTorneo(result.data);
-        }).catch(() => {
+        }).catch((error) => {
+            if (error?.response && error.response.status === 403){
+                navigate("/login");
+            }
+
             setDataAlerta({
                 variant: 'error',
-                texto: 'Error API'
+                texto: `Error API: ${error.message}`
             });
 
             setShowAlerta(true);
@@ -70,10 +73,20 @@ export default function Detalles() {
     }, [modoEditar]);
 
     const handleGuardar = useCallback(() => {
-        console.log(infoTorneo);
         updateById(id, infoTorneo)
             .then(() => navigate("/torneos"))
-            .catch(ex => console.log(ex));
+            .catch((error) => {
+                if (error?.response && error.response.status === 403){
+                    navigate("/login");
+                }
+
+                setDataAlerta({
+                    variant: 'error',
+                    texto: `Error API: ${error.message}`
+                });
+
+                setShowAlerta(true);
+            });
     }, [id, infoTorneo]);
 
     const handleChange = useCallback((event) => {
