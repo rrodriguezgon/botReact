@@ -40,12 +40,12 @@ export default function ModalComponent({
             </DialogContent>
             <DialogActions>
                 {buttonCancelFN &&
-                    <Button onClick={() => buttonCancelFN()}>
+                    <Button variant="contained" onClick={() => buttonCancelFN()}>
                         Cancelar
                     </Button>
                 }
                 {buttonAcceptFN &&
-                    <Button onClick={() => buttonAcceptFN()}>
+                    <Button variant="contained" onClick={() => buttonAcceptFN()}>
                         Aceptar
                     </Button>
                 }
