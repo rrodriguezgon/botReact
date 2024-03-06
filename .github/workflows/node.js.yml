@@ -26,8 +26,8 @@ jobs:
       with:
         local: build
         remote: /home/ubuntu/bot-marcador-react/build
-        host: 217.182.129.103
-        port: 4568
-        username: ubuntu
-        password: 9bPEfwDX9gkG
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
 
