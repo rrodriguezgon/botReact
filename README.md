@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Script PM2
+
+pm2 --name "bot-marcador-front" serve --spa build 8082
+
 ## Available Scripts
 
 In the project directory, you can run:
