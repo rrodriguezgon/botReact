@@ -9,7 +9,7 @@ import useStyles from "./index.css";
 
 
 export default function Filtros({ search, estadoOptions, typesOptions }) {
-  const [filters, setFilters] = useState({nombre: null, type: null, estado: null, date: null, terminado: null});
+  const [filters, setFilters] = useState({ nombre: null, type: null, estado: null, date: null, terminado: null, circuito: null });
 
   const classes = useStyles();
 
@@ -23,7 +23,7 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
 
     setFilters((prevState) => ({
       ...prevState,
-      [name]: ( className.includes('PrivateSwitchBase') ? checked : value)
+      [name]: (className?.includes('PrivateSwitchBase') ? checked : value)
     }));
   }, []);
 
@@ -35,8 +35,10 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
   }, []);
 
   const handleClear = useCallback(() => {
-    setFilters({nombre: ''});
+    setFilters({ nombre: '' });
   }, []);
+
+  const circuitoOptions = ['fip', 'a1padel', 'upt'];
 
   return (
     <Card>
@@ -84,6 +86,23 @@ export default function Filtros({ search, estadoOptions, typesOptions }) {
                   fullWidth
                 >
                   {typesOptions.map(tipo => <MenuItem value={tipo}>{tipo}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="select-label-circuito">Circuito</InputLabel>
+                <Select
+                  name="circuito"
+                  labelId='select-label-circuito'
+                  className={classes.boxMarginTop}
+                  value={filters.circuito}
+                  label="Circuito"
+                  onChange={handleChange}
+                  margin='dense'
+                  fullWidth
+                >
+                  {circuitoOptions.map(circuito => <MenuItem value={circuito}>{circuito}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>
