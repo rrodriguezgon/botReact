@@ -16,9 +16,14 @@ import {
     FormGroup,
     FormControlLabel,
     Checkbox,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import moment from 'moment-timezone';
 
 // Imports Components Core
 import Loading from "../../../components/Loading";
@@ -33,6 +38,8 @@ import useStyles from "./index.css";
 
 export default function Detalles() {
     const [infoTorneo, setInfoTorneo] = useState();
+    const [listZonasHorarias, setListZonasHorarias] = useState();
+    const [horaZona, setHoraZona] = useState(moment());
     const [loading, setLoading] = useState(true);
     const [showAlerta, setShowAlerta] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -45,9 +52,13 @@ export default function Detalles() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setListZonasHorarias(moment.tz.names());
         setLoading(true);
-        getById(id).then((result) => {
-            setInfoTorneo(result.data);
+        getById(id).then(({ data }) => {
+            setInfoTorneo(data);
+            if (data.timeZone){
+                setHoraZona(moment().tz(data.timeZone));
+            }            
         }).catch((error) => {
             if (error?.response && error.response.status === 403) {
                 navigate("/login");
@@ -112,7 +123,19 @@ export default function Detalles() {
             ...prevState,
             [name]: (className?.includes('PrivateSwitchBase') ? checked : value)
         }));
-    }, []);
+
+        if (name === 'timeZone') {
+            // Luego, crea un momento en la zona horaria deseada
+            var fechaZonaHoraria = moment.tz(value);
+            let franja = fechaZonaHoraria;
+            let nuestro = moment().add('hour', 2);
+            // Ahora puedes usar fechaZonaHoraria para obtener la fecha y hora en esa zona horaria
+            console.log(franja); // Salida: fecha y hora en la zona horaria de Los Ángeles
+            console.log(nuestro);
+
+            setHoraZona(franja);
+        }
+    }, [infoTorneo, setHoraZona]);
 
     const handleOpenModal = useCallback((row) => {
         setShowModal(true);
@@ -180,25 +203,53 @@ export default function Detalles() {
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
                         <DatePicker
                             name="date"
                             fullWidth
                             className={classes.boxMarginTop}
                             label="Fecha Inicio"
                             format="DD/MM/YYYY"
-                            value={dayjs(infoTorneo.fechaInicioDate)}
+                            value={moment(infoTorneo.fechaInicioDate)}
                             readOnly />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
                         <DatePicker
                             name="date"
                             fullWidth
                             className={classes.boxMarginTop}
                             label="Fecha Fin"
                             format="DD/MM/YYYY"
-                            value={dayjs(infoTorneo.fechaFinDate)}
+                            value={moment(infoTorneo.fechaFinDate)}
                             readOnly />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <FormControl fullWidth>
+                            <InputLabel id="select-label-timeZone">Zona Horaria</InputLabel>
+                            <Select
+                                name="timeZone"
+                                labelId='select-label-timeZone'
+                                className={classes.boxMarginTop}
+                                label="Zona Horaria"
+                                onChange={handleChange}
+                                margin='dense'
+                                value={infoTorneo.timeZone}
+                                disabled={!modoEditar}
+                                fullWidth
+                            >
+                                {listZonasHorarias.map(zona => <MenuItem key={zona} value={zona}>{zona}</MenuItem>)}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TimePicker
+                            fullWidth
+                            className={classes.boxMarginTop}
+                            label="Hora Lanzamiento"
+                            margin="dense"
+                            readOnly
+                            value={horaZona}
+                        />
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
@@ -250,7 +301,10 @@ export default function Detalles() {
                     </Grid>
                     <Grid item xs={6}>
                         <FormGroup>
-                            <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="desactivarMarcador" checked={infoTorneo?.desactivarMarcador} disabled={!modoEditar} onChange={handleChange} />} label="Desactivar Marcador" />
+                            <FormControlLabel 
+                            className={classes.boxMarginTop} 
+                            control={<Checkbox name="desactivarMarcador" checked={infoTorneo?.desactivarMarcador} disabled={!modoEditar} onChange={handleChange} />} 
+                            label="Desactivar Marcador" />
                         </FormGroup>
                     </Grid>
                     {infoTorneo?.cuadros.filter(cuadro => cuadro.url).length > 0 && (

@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 // Imports Material UI
 import { Container, Grid, Card, CardContent, CardActions, Select, InputLabel, MenuItem, FormControl, Button } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 import useStyles from "./index.css";
 
@@ -29,7 +29,7 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
   const handleChangeDate = useCallback((date) => {
     setFilters((prevState) => ({
       ...prevState,
-      date: dayjs(date).toDate()
+      date: moment(date).toDate()
     }));
   }, []);
 
@@ -81,7 +81,7 @@ export default function Filtros({ search, comandosOptions, typesOptions }) {
                 className={classes.boxMarginTop}
                 label="Fecha"
                 format="DD-MM-YYYY"
-                value={dayjs(filters.date)}
+                value={moment(filters.date)}
                 onChange={(date) => handleChangeDate(date)}
                 slotProps={{
                   field: { clearable: true },

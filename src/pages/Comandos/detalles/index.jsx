@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 // Imports Components Core
 import Loading from "../../../components/Loading";
@@ -100,7 +100,7 @@ export default function Detalles() {
     const handleChangeDate = useCallback((date, name) => {
         setInfoComando((prevState) => ({
             ...prevState,
-            [name]: dayjs(date).toDate()
+            [name]: moment(date).toDate()
         }));
     }, []);
 
@@ -193,7 +193,7 @@ export default function Detalles() {
                                     className={classes.boxMarginTop}
                                     label="Ultima Fecha Ejecución"
                                     format="DD/MM/YYYY HH:mm"
-                                    value={dayjs(infoComando?.ultimaFechaEjecucion)}
+                                    value={moment(infoComando?.ultimaFechaEjecucion)}
                                     readOnly />
                             </Grid>
                             {infoComando?.tipo === 'observador' && (
@@ -203,7 +203,7 @@ export default function Detalles() {
                                             fullWidth
                                             className={classes.boxMarginTop}
                                             label="Hora Lanzamiento"
-                                            value={dayjs(infoComando?.horaEjecucion)}
+                                            value={moment(infoComando?.horaEjecucion)}
                                             margin="dense"
                                             readOnly={!modoEditar}
                                             onChange={(date) => handleChangeDate(date, 'horaEjecucion')}

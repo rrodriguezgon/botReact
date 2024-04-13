@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 // Imports Material UI
 import { Container, Grid, TextField, Button } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs from 'dayjs';
 
 // Imports Components Core
 import Listado from '../../../components/Listado';
@@ -160,7 +159,14 @@ const Details = ({ row, classes }) => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <DateTimePicker fullWidth className={classes.boxMarginTop} label="Fecha" format="DD-MM-YYYY hh:mm" value={dayjs(row.date)} margin="dense" readOnly />
+                <DateTimePicker 
+                    fullWidth 
+                    className={classes.boxMarginTop} 
+                    label="Fecha" 
+                    format="DD-MM-YYYY hh:mm" 
+                    value={moment(row.date)} 
+                    margin="dense" 
+                    readOnly />
             </Grid>
             <Grid item xs={12}>
                 <TextField
