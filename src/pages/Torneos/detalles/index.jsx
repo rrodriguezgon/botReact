@@ -137,6 +137,13 @@ export default function Detalles() {
         setShowModal(false);
     }, []);
 
+    const handleChangeDate = useCallback((date, name) => {
+        setInfoTorneo((prevState) => ({
+            ...prevState,
+            [name]: moment(date).toDate()
+        }));
+    }, []);
+
     return (
         <Container>
             {showAlerta &&
@@ -312,6 +319,28 @@ export default function Detalles() {
                                 label="Desactivar Marcador" />
                         </FormGroup>
                     </Grid>
+                    <Grid item xs={3}>
+                                <TimePicker
+                                    fullWidth
+                                    className={classes.boxMarginTop}
+                                    label="Hora Inicio"
+                                    value={moment(infoTorneo?.horaInicio)}
+                                    margin="dense"
+                                    readOnly={!modoEditar}
+                                    onChange={(date) => handleChangeDate(date, 'horaInicio')}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TimePicker
+                                    fullWidth
+                                    className={classes.boxMarginTop}
+                                    label="Hora Fin"
+                                    value={moment(infoTorneo?.horaFin)}
+                                    margin="dense"
+                                    readOnly={!modoEditar}
+                                    onChange={(date) => handleChangeDate(date, 'horaFin')}
+                                />
+                            </Grid>
                     {infoTorneo?.cuadros.filter(cuadro => cuadro.url).length > 0 && (
                         <Grid item xs={12}>
                             <Typography variant="h3" display="block" gutterBottom>

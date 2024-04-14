@@ -240,28 +240,6 @@ export default function Detalles() {
                                 />
                             </Grid>
                             <Grid item xs={3}>
-                                <TimePicker
-                                    fullWidth
-                                    className={classes.boxMarginTop}
-                                    label="Hora Inicio"
-                                    value={moment(infoComando?.horaInicio)}
-                                    margin="dense"
-                                    readOnly={!modoEditar}
-                                    onChange={(date) => handleChangeDate(date, 'horaInicio')}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TimePicker
-                                    fullWidth
-                                    className={classes.boxMarginTop}
-                                    label="Hora Fin"
-                                    value={moment(infoComando?.horaFin)}
-                                    margin="dense"
-                                    readOnly={!modoEditar}
-                                    onChange={(date) => handleChangeDate(date, 'horaFin')}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
                                 <FormGroup>
                                     <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="lanzado" checked={infoComando?.lanzado} disabled />} label="Lanzado" />
                                 </FormGroup>
