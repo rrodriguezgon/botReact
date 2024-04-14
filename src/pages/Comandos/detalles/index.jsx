@@ -49,20 +49,20 @@ export default function Detalles() {
     function getComando(id) {
         setLoading(true);
         getById(id)
-        .then((result) => {
-            setInfoComando(result.data);
-        }).catch((error) => {
-            if (error?.response && error.response.status === 403){
-                navigate("/login");
-            }
+            .then((result) => {
+                setInfoComando(result.data);
+            }).catch((error) => {
+                if (error?.response && error.response.status === 403) {
+                    navigate("/login");
+                }
 
-            setDataAlerta({
-                variant: 'error',
-                texto: `Error API: ${error.message}`
-            });
+                setDataAlerta({
+                    variant: 'error',
+                    texto: `Error API: ${error.message}`
+                });
 
-            setShowAlerta(true);
-        }).finally(() => setLoading(false));
+                setShowAlerta(true);
+            }).finally(() => setLoading(false));
     }
 
     const handleChangeMod = useCallback(() => {
@@ -74,7 +74,7 @@ export default function Detalles() {
         (id ? updateById(id, infoComando) : create(infoComando))
             .then(() => navigate("/comandos"))
             .catch((error) => {
-                if (error?.response && error.response.status === 403){
+                if (error?.response && error.response.status === 403) {
                     navigate("/login");
                 }
 
@@ -117,10 +117,11 @@ export default function Detalles() {
         setShowAlerta(false);
     }, [setShowAlerta]);
 
-    const tipoOptions = ['lanzador', 'observador'];
+    const tipoOptions = ['lanzador', 'observador', 'fijoHora'];
     const intervaloOptions = [
         { value: 60000, display: '1 Minuto' },
-        { value: 1800000, display: '30 Minutos' }
+        { value: 1800000, display: '30 Minutos' },
+        { value: 3600000, display: '1 hora' }
     ];
 
     return (
@@ -187,7 +188,7 @@ export default function Detalles() {
                                     </FormControl>
                                 )}
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={3}>
                                 <DatePicker
                                     fullWidth
                                     className={classes.boxMarginTop}
@@ -198,18 +199,7 @@ export default function Detalles() {
                             </Grid>
                             {infoComando?.tipo === 'observador' && (
                                 <>
-                                    <Grid item xs={6}>
-                                        <TimePicker
-                                            fullWidth
-                                            className={classes.boxMarginTop}
-                                            label="Hora Lanzamiento"
-                                            value={moment(infoComando?.horaEjecucion)}
-                                            margin="dense"
-                                            readOnly={!modoEditar}
-                                            onChange={(date) => handleChangeDate(date, 'horaEjecucion')}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={3}>
                                         <FormControl fullWidth>
                                             <InputLabel id="select-label-intervalo">Intervalo</InputLabel>
                                             <Select
@@ -227,16 +217,11 @@ export default function Detalles() {
                                             </Select>
                                         </FormControl>
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <FormGroup>
-                                            <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="activo" checked={infoComando?.activo} disabled={!modoEditar} onChange={handleChange} />} label="Activo" />
-                                        </FormGroup>
-                                    </Grid>
                                 </>
                             )}
                             {infoComando?.tipo === 'lanzador' && (
                                 <>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={9}>
                                         <TextField
                                             name="parametros"
                                             label="Parametros"
@@ -249,13 +234,31 @@ export default function Detalles() {
                                             onChange={handleChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={3}>
                                         <FormGroup>
                                             <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="lanzado" checked={infoComando?.lanzado} disabled />} label="Lanzado" />
                                         </FormGroup>
                                     </Grid>
                                 </>
                             )}
+                            {infoComando?.tipo === 'fijoHora' && (
+                                <Grid item xs={3}>
+                                    <TimePicker
+                                        fullWidth
+                                        className={classes.boxMarginTop}
+                                        label="Hora Lanzamiento"
+                                        value={moment(infoComando?.horaEjecucion)}
+                                        margin="dense"
+                                        readOnly={!modoEditar}
+                                        onChange={(date) => handleChangeDate(date, 'horaEjecucion')}
+                                    />
+                                </Grid>
+                            )}
+                            <Grid item xs={3}>
+                                <FormGroup>
+                                    <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="activo" checked={infoComando?.activo} disabled={!modoEditar} onChange={handleChange} />} label="Activo" />
+                                </FormGroup>
+                            </Grid>
                         </Grid>
                     </Grid>
                 )}

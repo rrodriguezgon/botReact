@@ -43,7 +43,7 @@ export default function Filtros({ search }) {
     setFilters({});
   }, []);
 
-  const tipoOptions = ['lanzador', 'observador'];
+  const tipoOptions = ['lanzador', 'observador', 'fijoHora'];
 
   return (
     <Card>
