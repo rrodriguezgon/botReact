@@ -56,9 +56,9 @@ export default function Detalles() {
         setLoading(true);
         getById(id).then(({ data }) => {
             setInfoTorneo(data);
-            if (data.timeZone){
+            if (data.timeZone) {
                 setHoraZona(moment().tz(data.timeZone));
-            }            
+            }
         }).catch((error) => {
             if (error?.response && error.response.status === 403) {
                 navigate("/login");
@@ -125,15 +125,7 @@ export default function Detalles() {
         }));
 
         if (name === 'timeZone') {
-            // Luego, crea un momento en la zona horaria deseada
-            var fechaZonaHoraria = moment.tz(value);
-            let franja = fechaZonaHoraria;
-            let nuestro = moment().add('hour', 2);
-            // Ahora puedes usar fechaZonaHoraria para obtener la fecha y hora en esa zona horaria
-            console.log(franja); // Salida: fecha y hora en la zona horaria de Los Ángeles
-            console.log(nuestro);
-
-            setHoraZona(franja);
+            setHoraZona(moment.tz(value));
         }
     }, [infoTorneo, setHoraZona]);
 
@@ -299,12 +291,25 @@ export default function Detalles() {
                             />
                         </a>
                     </Grid>
+                    <Grid item xs={12}>
+                        <a href={infoTorneo.linkResultados} rel="noreferrer" target="_blank">
+                            <TextField
+                                label="Link Resultados"
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                value={infoTorneo.linkResultados}
+                                margin="dense"
+                                fullWidth
+                            />
+                        </a>
+                    </Grid>
                     <Grid item xs={6}>
                         <FormGroup>
-                            <FormControlLabel 
-                            className={classes.boxMarginTop} 
-                            control={<Checkbox name="desactivarMarcador" checked={infoTorneo?.desactivarMarcador} disabled={!modoEditar} onChange={handleChange} />} 
-                            label="Desactivar Marcador" />
+                            <FormControlLabel
+                                className={classes.boxMarginTop}
+                                control={<Checkbox name="desactivarMarcador" checked={infoTorneo?.desactivarMarcador} disabled={!modoEditar} onChange={handleChange} />}
+                                label="Desactivar Marcador" />
                         </FormGroup>
                     </Grid>
                     {infoTorneo?.cuadros.filter(cuadro => cuadro.url).length > 0 && (

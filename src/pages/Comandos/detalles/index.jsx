@@ -197,73 +197,62 @@ export default function Detalles() {
                                     value={moment(infoComando?.ultimaFechaEjecucion)}
                                     readOnly />
                             </Grid>
-                            {infoComando?.tipo === 'observador' && (
-                                <>
-                                    <Grid item xs={3}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="select-label-intervalo">Intervalo</InputLabel>
-                                            <Select
-                                                name="intervalo"
-                                                labelId='select-label-intervalo'
-                                                className={classes.boxMarginTop}
-                                                value={infoComando?.intervalo}
-                                                label="Intervalo"
-                                                onChange={handleChange}
-                                                margin='dense'
-                                                fullWidth
-                                                readOnly={!modoEditar}
-                                            >
-                                                {intervaloOptions.map(intervalo => <MenuItem key={intervalo.value} value={intervalo.value}>{intervalo.display}</MenuItem>)}
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                </>
-                            )}
-                            {infoComando?.tipo === 'lanzador' && (
-                                <>
-                                    <Grid item xs={9}>
-                                        <TextField
-                                            name="parametros"
-                                            label="Parametros"
-                                            InputProps={{
-                                                readOnly: !modoEditar,
-                                            }}
-                                            value={infoComando?.parametros}
-                                            margin="dense"
-                                            fullWidth
-                                            onChange={handleChange}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <FormGroup>
-                                            <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="lanzado" checked={infoComando?.lanzado} disabled />} label="Lanzado" />
-                                        </FormGroup>
-                                    </Grid>
-                                </>
-                            )}
-                            {infoComando?.tipo === 'fijoHora' && (
-                                <Grid item xs={3}>
-                                    <TimePicker
-                                        fullWidth
-                                        className={classes.boxMarginTop}
-                                        label="Hora Lanzamiento"
-                                        value={moment(infoComando?.horaEjecucion)}
-                                        margin="dense"
-                                        readOnly={!modoEditar}
-                                        onChange={(date) => handleChangeDate(date, 'horaEjecucion')}
-                                    />
-                                </Grid>
-                            )}
                             <Grid item xs={3}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="select-label-intervalo">Intervalo</InputLabel>
+                                    <Select
+                                        name="intervalo"
+                                        labelId='select-label-intervalo'
+                                        className={classes.boxMarginTop}
+                                        value={infoComando?.intervalo}
+                                        label="Intervalo"
+                                        onChange={handleChange}
+                                        margin='dense'
+                                        fullWidth
+                                        readOnly={!modoEditar}
+                                    >
+                                        {intervaloOptions.map(intervalo => <MenuItem key={intervalo.value} value={intervalo.value}>{intervalo.display}</MenuItem>)}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TimePicker
+                                    fullWidth
+                                    className={classes.boxMarginTop}
+                                    label="Hora Lanzamiento"
+                                    value={moment(infoComando?.horaEjecucion)}
+                                    margin="dense"
+                                    readOnly={!modoEditar}
+                                    onChange={(date) => handleChangeDate(date, 'horaEjecucion')}
+                                />
+                            </Grid>
+                            <Grid item xs={1}>
+                                <FormGroup>
+                                    <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="lanzado" checked={infoComando?.lanzado} disabled />} label="Lanzado" />
+                                </FormGroup>
+                            </Grid>
+                            <Grid item xs={1}>
                                 <FormGroup>
                                     <FormControlLabel className={classes.boxMarginTop} control={<Checkbox name="activo" checked={infoComando?.activo} disabled={!modoEditar} onChange={handleChange} />} label="Activo" />
                                 </FormGroup>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="parametros"
+                                    label="Parametros"
+                                    InputProps={{
+                                        readOnly: !modoEditar,
+                                    }}
+                                    value={infoComando?.parametros}
+                                    margin="dense"
+                                    fullWidth
+                                    onChange={handleChange}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
                 )}
             </Grid>
-
         </Container>
     );
 }
