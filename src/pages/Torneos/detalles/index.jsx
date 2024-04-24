@@ -253,6 +253,7 @@ export default function Detalles() {
                     <Grid item xs={6}>
                         <TextField
                             label="Estado"
+                            name="estado"
                             InputProps={{
                                 readOnly: !modoEditar,
                             }}
