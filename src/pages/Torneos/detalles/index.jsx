@@ -256,6 +256,7 @@ export default function Detalles() {
                             InputProps={{
                                 readOnly: !modoEditar,
                             }}
+                            onChange={handleChange}
                             value={infoTorneo.estado}
                             margin="dense"
                             fullWidth
