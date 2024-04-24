@@ -171,7 +171,7 @@ export default function Detalles() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Comando"
+                            label="Nombre"
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -254,7 +254,7 @@ export default function Detalles() {
                         <TextField
                             label="Estado"
                             InputProps={{
-                                readOnly: true,
+                                readOnly: !modoEditar,
                             }}
                             value={infoTorneo.estado}
                             margin="dense"
