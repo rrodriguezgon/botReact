@@ -147,7 +147,7 @@ export default function Detalles() {
     const handleDeleteDraws = useCallback(() => {
         setInfoTorneo((prevState) => ({
             ...prevState,
-            cuadros: undefined,
+            cuadros: [],
         }));
     }, []);
     return (
